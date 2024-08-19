@@ -1,11 +1,15 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
-import Navigation from '../components/Navigation.astro';
+import Card from "@components/Card.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/Footer.astro";
+import "@styles/global.css";
 ---
-
-<Layout title="Welcome to Astro.">
-	<main>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+	</head>
+	<body>
 		<svg
 			class="astro-a"
 			width="495"
@@ -35,12 +39,14 @@ import Navigation from '../components/Navigation.astro';
 			</defs>
 		</svg>
 
-		<Navigation />
+		<Header />
 
 		<h1>Welcome to <span class="text-gradient">My Site</span></h1>
 		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br />
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message above.
+			To get started, open the directory <code>src/pages</code> in your project.<br
+			/>
+			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message
+			above.
 		</p>
 		<ul role="list" class="link-card-grid">
 			<Card
@@ -64,8 +70,13 @@ import Navigation from '../components/Navigation.astro';
 				body="Come say hi to our amazing Discord community. ❤️"
 			/>
 		</ul>
-	</main>
-</Layout>
+
+		<Footer />
+		<script>
+			import "../scripts/menu.tsx";
+		</script>
+	</body>
+</html>
 
 <style>
 	main {
@@ -103,7 +114,10 @@ import Navigation from '../components/Navigation.astro';
 	.instructions {
 		margin-bottom: 2rem;
 		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(rgba(var(--accent-dark), 66%), rgba(var(--accent-dark), 33%));
+		background: linear-gradient(
+			rgba(var(--accent-dark), 66%),
+			rgba(var(--accent-dark), 33%)
+		);
 		padding: 1.5rem;
 		border-radius: 8px;
 	}
