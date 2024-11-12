@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "noto sans jp";
+    src: url("/fonts/NotoSansJP-VariableFont_wght.ttf") format("truetype");
+    font-display: swap;
+}
+
+body{
+    font-family: "noto sans jp";
+}
