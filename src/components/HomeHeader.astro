@@ -1,11 +1,15 @@
 ---
+import { Image } from "astro:assets";
 
+import HeaderImage from "public/img/HomeBackground.png"
 ---
 
 <style>
     @font-face {
         font-family: "titlefont";
-        src: url("/font/Corporate-Logo-Medium-ver3.woff2") format("woff2");
+        src: url("/fonts/Corporate-Logo-Rounded-Bold-ver3.woff2") format("woff2");
+        font-weight: bold;
+        font-style: normal;
         font-display: swap;
     }
     .headerImage {
@@ -22,15 +26,15 @@
         align-items: center;
         height: 200px;
         top: 0px;
-        left: 350px;
-        font-family: "titlefont", sans-serif !important;
-        font-size: clamp(20pt, 4.5vw, 50pt);
+        left: 400px;
+        font-family: "titlefont", sans-serif;
+        font-size: clamp(20pt, 4vw, 50pt);
     }
 </style>
 
 <header>
     <div>
-        <img src="/img/HomeBackground.png", class="headerImage">
+        <Image src={HeaderImage}, alt="ヘッダ画像", class="headerImage"/>
         <div class="headerText">Welcome to kitashima.dev</div>
     </div>
 </header>
