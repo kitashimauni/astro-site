@@ -28,8 +28,17 @@ import HeaderImage from "public/img/HomeBackground.png"
         top: 0px;
         left: 400px;
         font-family: "titlefont", sans-serif;
-        font-size: clamp(20pt, 4vw, 50pt);
+        font-size: clamp(10pt, 4vw, 50pt);
     }
+	@media (max-width: 599px) {
+		.headerImage {
+            height: 100px;
+        }
+        .headerText {
+            height: 100px;
+            left: 150px;
+        }
+	}
 </style>
 
 <header>
