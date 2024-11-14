@@ -1,7 +1,8 @@
 ---
 import Card from "@components/Card.astro";
-import Header from "@components/HomeHeader.astro";
-import Footer from "@components/Footer.astro";
+import Head from "@components/util/Head.astro";
+import HomeHeader from "@components/home/HomeHeader.astro";
+import Footer from "@components/util/Footer.astro";
 import "@styles/default.css";
 
 import githubLogo from "public/img/github-mark.png"
@@ -15,26 +16,26 @@ import { Image } from "astro:assets";
 		gap: 50px 100px;
 		margin-top: 100px;
 	    margin-bottom: 100px;
-		height: 600px;
+		min-height: 500px;
 	}
 	.logo-container {
 		display: flex;
 		gap: 40px;
 		justify-content: center;
+		margin: 25px;
 	}
 	.logo {
 		width: 50px;
 		height: 50px;
-		margin-bottom: 50px;
 	}
-	@media (min-width: 600px) {
+	@media (min-width: 900px) {
 		.cardsArea {
 			grid-template-columns: repeat(2, 1fr);
 			margin-left: 150px;
 			margin-right: 150px;
 		}
 	}
-	@media (max-width: 599px) {
+	@media (max-width: 899px) {
 		.cardsArea {
 			grid-template-columns: 1fr;
 			margin-left: 50px;
@@ -43,24 +44,23 @@ import { Image } from "astro:assets";
 	}
 </style>
 <html lang="ja">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	</head>
-	<Header/>
-	<div class="cardsArea">
-		<Card href="./blog", title="Blog", body="技術ブログ"/>
-		<Card href="./portfolio", title="Portfolio", body="制作物・スキルなど"/>
-		<Card href="./about", title="About", body="経歴など"/>
-		<Card href="./others", title="Others", body="その他リンク等"/>
-	</div>
-	<div class="logo-container">
-		<a href="https://github.com/kitashimauni" target="_blank">
-			<Image src={githubLogo}, alt="GitHubのリンク", class="logo"/>
-		</a>
-		<a href="https://x.com/nibs_tuat" target="_blank">
-			<Image src={xLogo}, alt="Xのリンク", class="logo"/>
-		</a>
-	</div>
-	<Footer/>
+	<Head title="Welcome to kitashima.dev" description="kitashima.devのトップページ"/>
+	<body>
+		<HomeHeader/>
+		<div class="cardsArea">
+			<Card href="./blog" title="Blog" body="技術ブログ"/>
+			<Card href="./portfolio" title="Portfolio" body="制作物・スキルなど"/>
+			<Card href="./about" title="About" body="経歴など"/>
+			<Card href="./others" title="Others" body="その他リンク等"/>
+		</div>
+		<div class="logo-container">
+			<a href="https://github.com/kitashimauni" target="_blank">
+				<Image src={githubLogo} alt="GitHubのリンク" class="logo"/>
+			</a>
+			<a href="https://x.com/nibs_tuat" target="_blank">
+				<Image src={xLogo} alt="Xのリンク" class="logo"/>
+			</a>
+		</div>
+		<Footer/>
+	</body>
 </html>	

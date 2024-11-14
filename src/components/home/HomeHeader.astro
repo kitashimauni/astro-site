@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 
-import HeaderImage from "public/img/HomeBackground.png"
+import HeaderImage from "public/img/icon.png"
 ---
 
 <style>
@@ -12,37 +12,41 @@ import HeaderImage from "public/img/HomeBackground.png"
         font-style: normal;
         font-display: swap;
     }
-    .headerImage {
-        position: relative;
+    .header-container {
+        display: flex;
+        gap: 50px;
         width: 100%;
         height: 200px;
-        object-fit: cover;
-        object-position: left top;
+        background-color: rgb(227, 246, 233);
+    }
+    .headerImage {
+        object-fit: contain;
+        object-position: left;
+        height: 100%;
+        width: auto;
+        margin-left: 50px;
     }
     .headerText {
-        position: absolute;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 200px;
-        top: 0px;
-        left: 400px;
+        height: 100%;
         font-family: "titlefont", sans-serif;
         font-size: clamp(10pt, 4vw, 50pt);
     }
-	@media (max-width: 599px) {
-		.headerImage {
+	@media (max-width: 699px) {
+		.header-container {
             height: 100px;
+            gap: 25px
         }
-        .headerText {
-            height: 100px;
-            left: 150px;
+        .headerImage {
+            margin-left: 25px;
         }
 	}
 </style>
 
 <header>
-    <div>
+    <div class="header-container">
         <Image src={HeaderImage}, alt="ヘッダ画像", class="headerImage"/>
         <div class="headerText">Welcome to kitashima.dev</div>
     </div>
