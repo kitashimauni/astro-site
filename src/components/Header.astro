@@ -2,9 +2,191 @@
 import Hamburger from "@components/Hamburger.astro";
 import Navigation from "@components/Navigation.astro";
 ---
-<header>
-    <nav>
+
+<header class="site-header">
+    <nav class="site-nav" aria-label="メインメニュー">
+        <a class="site-brand" href="/">kitashima.dev</a>
         <Hamburger />
         <Navigation />
     </nav>
 </header>
+
+<script>
+    import "../scripts/menu.tsx";
+</script>
+
+<style is:global>
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(14px);
+        background: rgba(255, 255, 255, 0.85);
+        border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .site-nav {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .site-brand {
+        color: #0f172a;
+        text-decoration: none;
+        font-size: 1.05rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+    }
+
+    .hamburger {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 46px;
+        height: 46px;
+        padding: 0;
+        border: 1px solid rgba(15, 23, 42, 0.12);
+        border-radius: 12px;
+        background: #ffffff;
+        cursor: pointer;
+        transition:
+            background-color 0.2s ease,
+            border-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .hamburger:hover,
+    .hamburger:focus-visible {
+        background: #f8fafc;
+        border-color: rgba(15, 23, 42, 0.24);
+        transform: translateY(-1px);
+    }
+
+    .hamburger .line {
+        display: block;
+        width: 20px;
+        height: 2px;
+        border-radius: 999px;
+        background: #0f172a;
+        transition:
+            transform 0.2s ease,
+            opacity 0.2s ease;
+    }
+
+    .hamburger[aria-expanded="true"] .line:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .hamburger[aria-expanded="true"] .line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger[aria-expanded="true"] .line:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav-links {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 0;
+        padding: 10px;
+        background: transparent;
+    }
+
+    .nav-links.is-open {
+        display: grid;
+    }
+
+    .nav-panel {
+        display: grid;
+        gap: 6px;
+        padding: 12px;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 18px 45px rgba(15, 23, 42, 0.1);
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: #334155;
+        text-decoration: none;
+        font-weight: 700;
+        transition:
+            background-color 0.2s ease,
+            color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+        background: #f1f5f9;
+        color: #0f172a;
+    }
+
+    .nav-links a[aria-current="page"] {
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .menu-sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+
+    @media (min-width: 768px) {
+        .site-nav {
+            position: static;
+        }
+
+        .hamburger {
+            display: none;
+        }
+
+        .nav-links {
+            display: block;
+            position: static;
+            width: auto;
+            padding: 0;
+        }
+
+        .nav-panel {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px;
+            border-radius: 10px;
+            box-shadow: none;
+            background: #f8fafc;
+        }
+
+        .nav-links a {
+            padding: 10px 14px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .site-nav {
+            position: relative;
+            flex-wrap: wrap;
+        }
+    }
+</style>

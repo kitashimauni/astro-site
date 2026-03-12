@@ -1,73 +1,79 @@
 ---
-import Card from "../components/Card.astro";
-import Header from "../components/Header.astro";
-import "../styles/default.css";
+import Head from "@components/util/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/util/Footer.astro";
+import "@styles/default.css";
 
-const title: String = "About";
-const pageTitle: String = "!";
-
-const skills: String[] = ["a", "b", "c"];
-
-const skillColor: String = "green";
-const fontWeight: String = "1.5rem";
-const textCase: String = "uppercase";
+const skills = ["C", "Python", "Web 開発", "アルゴリズム", "機械学習"];
 ---
 
+<style>
+	main {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 48px 24px 80px;
+		color: #1f2937;
+	}
+	h1 {
+		font-size: clamp(2rem, 4vw, 3rem);
+		margin-bottom: 12px;
+	}
+	.lead {
+		font-size: 1.05rem;
+		line-height: 1.8;
+		margin-bottom: 32px;
+	}
+	.section {
+		margin-top: 32px;
+	}
+	.section h2 {
+		font-size: 1.35rem;
+		margin-bottom: 12px;
+	}
+	.section p {
+		line-height: 1.8;
+	}
+	.skill-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	.skill-list li {
+		padding: 10px 14px;
+		border-radius: 999px;
+		background: #e5f7ea;
+		color: #14532d;
+		font-weight: 600;
+	}
+</style>
+
 <html lang="ja">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<title>{pageTitle}</title>
-		<style define:vars={{ skillColor, fontWeight, textCase }}>
-			h1 {
-				color: purple;
-				font-size: 4rem;
-			}
-			.skill {
-				color: var(--skillColor);
-				font-size: var(--fontWeight);
-				text-transform: var(--textCase);
-				font-weight: bold;
-			}
-		</style>
-	</head>
+	<Head title="About" description="自己紹介とスキルの概要です" />
 	<body>
 		<Header />
+		<main>
+			<h1>About</h1>
+			<p class="lead">
+				自己紹介ページです。
+			</p>
 
-		<h1>Welcome to <span class="text-gradient">My Site</span></h1>
-		<p class="instructions">
-			To get started, open the directory <code>src/pages</code> in your project.<br
-			/>
-			<strong>Code Challenge:</strong> Tweak the "Welcome to Astro" message
-			above.
-		</p>
+			<section class="section">
+				<h2>プロフィール</h2>
+				<p>
+					東京農工大学大学院工学府知能情報システム工学専攻に所属しています。ゲーム製作や競技プログラミング等様々な活動をしています。
+				</p>
+			</section>
 
-		<p>私のスキルは以下の通りです。</p>
-		<ul>
-			{skills.map((skill) => <li class="skill">{skill}</li>)}
-		</ul>
-
-		<ul role="list" class="link-card-grid">
-			<Card
-				href="https://docs.astro.build/"
-				title="Documentation"
-				body="Learn how Astro works and explore the official API docs."
-			/>
-			<Card
-				href="https://astro.build/integrations/"
-				title="Integrations"
-				body="Supercharge your project with new frameworks and libraries."
-			/>
-			<Card
-				href="https://astro.build/themes/"
-				title="Themes"
-				body="Explore a galaxy of community-built starter themes."
-			/>
-			<Card
-				href="https://astro.build/chat/"
-				title="Community"
-				body="Come say hi to our amazing Discord community. ❤️"
-			/>
-		</ul>
+			<section class="section">
+				<h2>関心分野</h2>
+				<p>
+					ゲーム製作、競技プログラミング、CTF、WEB制作などなど
+				</p>
+			</section>
+		</main>
+		<Footer />
 	</body>
 </html>

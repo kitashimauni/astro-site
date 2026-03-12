@@ -1,11 +1,113 @@
 ---
-import Head from "@components/util/Head.astro"
+import Head from "@components/util/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/util/Footer.astro";
+import "@styles/default.css";
 
+const works = [
+    {
+        title: "このサイト",
+        description:
+            "Astro で構築した個人サイト。トップ、ブログ、各種固定ページを整備しています。",
+        status: "公開中",
+    },
+    {
+        title: "技術ブログ",
+        description:
+            "学習内容や実装メモをまとめるブログ。「ブログ」から飛べます。",
+        status: "公開中",
+    },
+    {
+        title: "その他制作物",
+        description: "アプリや実験的な実装を今後ここへ追記していく予定です。",
+        status: "準備中",
+    },
+];
 ---
 
-<html>
-    <Head title="Portfolio" description="ポートフォリオです"/>
+<style>
+    main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 48px 24px 80px;
+        color: #1f2937;
+    }
+    h1 {
+        font-size: clamp(2rem, 4vw, 3rem);
+        margin-bottom: 12px;
+    }
+    .lead {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        margin-bottom: 32px;
+    }
+    .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 16px;
+    }
+    .work-list {
+        display: grid;
+        gap: 16px;
+        padding: 0;
+        list-style: none;
+    }
+    .work-item {
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        padding: 20px;
+        background: #fff;
+    }
+    .work-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: baseline;
+        margin-bottom: 8px;
+    }
+    .work-head h2 {
+        font-size: 1.15rem;
+        margin: 0;
+    }
+    .status {
+        font-size: 0.9rem;
+        color: #4b5563;
+    }
+    p {
+        margin: 0;
+        line-height: 1.7;
+    }
+</style>
+
+<html lang="ja">
+    <Head
+        title="Portfolio"
+        description="制作物や取り組みをまとめたページです"
+    />
     <body>
-        ここにポートフォリオを作る
+        <Header />
+        <main>
+            <h1>Portfolio</h1>
+            <p class="lead">
+                制作物や現在取り組んでいる内容をまとめる予定です(準備中)。
+            </p>
+
+            <section>
+                <h2 class="section-title">制作物一覧</h2>
+                <ul class="work-list">
+                    {
+                        works.map((work) => (
+                            <li class="work-item">
+                                <div class="work-head">
+                                    <h2>{work.title}</h2>
+                                    <span class="status">{work.status}</span>
+                                </div>
+                                <p>{work.description}</p>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+        </main>
+        <Footer />
     </body>
 </html>

@@ -1,7 +1,38 @@
 ---
+const normalizePath = (path: string) => {
+    if (path === "/") {
+        return "/";
+    }
+
+    return path.replace(/\/+$/, "");
+};
+
+const pathname = normalizePath(Astro.url.pathname);
+
+const links = [
+    { href: "/", label: "Home" },
+    { href: "/blog/", label: "Blog" },
+    { href: "/portfolio/", label: "Portfolio" },
+    { href: "/about/", label: "About" },
+    { href: "/others/", label: "Others" },
+];
 ---
-<div class="nav-links">
-    <a href="/">ホーム</a>
-    <a href="/blog/">ブログ</a>
-    <a href="/about/">About</a>
+
+<div id="site-navigation" class="nav-links">
+    <div class="nav-panel">
+        {
+            links.map((link) => (
+                <a
+                    href={link.href}
+                    aria-current={
+                        pathname === normalizePath(link.href)
+                            ? "page"
+                            : undefined
+                    }
+                >
+                    {link.label}
+                </a>
+            ))
+        }
+    </div>
 </div>

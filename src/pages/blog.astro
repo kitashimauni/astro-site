@@ -1,20 +1,76 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
+import Head from "@components/util/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/util/Footer.astro";
 import "@styles/default.css";
+
+const blogUrl = "https://tech.n-island.dev";
 ---
 
-<Layout title="ブログ">
+<html lang="ja">
+    <Head title="Blog" description="外部ブログへの案内ページです" />
     <body>
         <Header />
-    
-        <h1>私のAstro学習ブログ</h1>
-        <p>ここには、私がAstroを学んでいく旅の様子を投稿します。</p>
-
-        <ul>
-            <li><a href="/posts/post-1/">記事1</a></li>
-            <li><a href="/posts/post-2/">記事2</a></li>
-            <li><a href="/posts/post-3/">記事3</a></li>
-        </ul>
+        <main class="blog-redirect">
+            <h1>Blog</h1>
+            <p>技術ブログを外部サイトで運用しています。</p>
+            <a href={blogUrl} target="_blank" rel="noreferrer" class="blog-btn">
+                tech.n-island.dev を開く →
+            </a>
+        </main>
+        <Footer />
     </body>
-</Layout>
+</html>
+
+<style>
+    .blog-redirect {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 64px 24px 96px;
+        color: #1f2937;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+    .blog-redirect h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .blog-redirect p {
+        margin: 0 0 24px;
+        line-height: 1.9;
+    }
+
+    .blog-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 14px 24px;
+        border-radius: 999px;
+        background: #0f172a;
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1rem;
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .blog-btn:hover,
+    .blog-btn:focus-visible {
+        background: #1e293b;
+        transform: translateY(-1px);
+    }
+</style>
