@@ -1,0 +1,16 @@
+---
+import { socialLinks } from "../../data/socialLinks";
+
+export function getStaticPaths() {
+	return Object.entries(socialLinks).map(([service, destination]) => ({
+		params: { service },
+		props: { destination },
+	}));
+}
+
+interface Props {
+	destination: (typeof socialLinks)[keyof typeof socialLinks];
+}
+
+return Astro.redirect(Astro.props.destination, 307);
+---
