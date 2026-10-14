@@ -2,27 +2,17 @@
 import Head from "@components/util/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/util/Footer.astro";
+import {
+    getTechnology,
+} from "@data/technologies";
+import {
+    getUsedTechnologies,
+    workStatusLabels,
+    works,
+} from "@data/portfolio";
 import "@styles/default.css";
 
-const works = [
-    {
-        title: "このサイト",
-        description:
-            "Astro で構築した個人サイト。トップ、ブログ、各種固定ページを整備しています。",
-        status: "公開中",
-    },
-    {
-        title: "技術ブログ",
-        description:
-            "学習内容や実装メモをまとめるブログ。「ブログ」から飛べます。",
-        status: "公開中",
-    },
-    {
-        title: "その他制作物",
-        description: "アプリや実験的な実装を今後ここへ追記していく予定です。",
-        status: "準備中",
-    },
-];
+const usedTechnologies = getUsedTechnologies();
 ---
 
 <style>
@@ -72,6 +62,64 @@ const works = [
         font-size: 0.9rem;
         color: #4b5563;
     }
+    .work-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        margin-bottom: 8px;
+        color: #4b5563;
+        font-size: 0.9rem;
+    }
+    .technology-list,
+    .link-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 0;
+        list-style: none;
+    }
+    .technology-list {
+        margin: 16px 0 0;
+    }
+    .technology-list li {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #ecfdf5;
+        color: #166534;
+        font-size: 0.85rem;
+    }
+    .link-list {
+        margin: 14px 0 0;
+    }
+    .link-list a {
+        color: #166534;
+        font-weight: 600;
+    }
+    .stack {
+        margin-top: 48px;
+    }
+    .stack-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+        padding: 0;
+        list-style: none;
+    }
+    .stack-list li {
+        padding: 14px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        background: #f8fafc;
+    }
+    .stack-list strong,
+    .stack-list span {
+        display: block;
+    }
+    .stack-list span {
+        margin-top: 4px;
+        color: #4b5563;
+        font-size: 0.85rem;
+    }
     p {
         margin: 0;
         line-height: 1.7;
@@ -88,7 +136,7 @@ const works = [
         <main>
             <h1>Portfolio</h1>
             <p class="lead">
-                制作物や現在取り組んでいる内容をまとめる予定です(準備中)。
+                研究・制作物をプロジェクト単位でまとめています。
             </p>
 
             <section>
@@ -96,15 +144,53 @@ const works = [
                 <ul class="work-list">
                     {
                         works.map((work) => (
-                            <li class="work-item">
+                            <li class="work-item" id={`work-${work.id}`}>
                                 <div class="work-head">
                                     <h2>{work.title}</h2>
-                                    <span class="status">{work.status}</span>
+                                    <span class="status">
+                                        {workStatusLabels[work.status]}
+                                    </span>
                                 </div>
-                                <p>{work.description}</p>
+                                <div class="work-meta">
+                                    <span>{work.category}</span>
+                                    {work.period && <span>{work.period}</span>}
+                                </div>
+                                <p>{work.summary}</p>
+                                <ul class="technology-list" aria-label="使用技術">
+                                    {work.technologies.map((technologyId) => (
+                                        <li>{getTechnology(technologyId).name}</li>
+                                    ))}
+                                </ul>
+                                {work.links && work.links.length > 0 && (
+                                    <ul class="link-list" aria-label="関連リンク">
+                                        {work.links.map((link) => (
+                                            <li>
+                                                <a
+                                                    href={link.url}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
+                                                    {link.label ?? link.type}
+                                                </a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </li>
                         ))
                     }
+                </ul>
+            </section>
+
+            <section class="stack">
+                <h2 class="section-title">Technical Stack</h2>
+                <ul class="stack-list">
+                    {usedTechnologies.map((technology) => (
+                        <li>
+                            <strong>{technology.name}</strong>
+                            <span>{technology.category}</span>
+                        </li>
+                    ))}
                 </ul>
             </section>
         </main>
