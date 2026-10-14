@@ -102,8 +102,18 @@ export const works: Work[] = [
         status: "published",
         technologies: ["markdown"],
         topics: ["技術記事", "学習記録"],
+        links: [
+            {
+                type: "GitHub",
+                url: "https://github.com/kitashimauni/techblog",
+            },
+            {
+                type: "Website",
+                url: "https://tech.n-island.dev/",
+            },
+        ],
         availability: {
-            repository: "none",
+            repository: "public",
             demo: "public",
         },
         featured: true,
@@ -124,6 +134,14 @@ const validateLink = (link: WorkLink, context: string): string[] => {
     }
 
     return errors;
+};
+
+const linkAvailabilityKey: Partial<
+    Record<WorkLinkType, keyof WorkAvailability>
+> = {
+    GitHub: "repository",
+    Demo: "demo",
+    Website: "demo",
 };
 
 /**
@@ -153,15 +171,19 @@ export const validateWorks = (items: readonly Work[]): void => {
         for (const [index, link] of (work.links ?? []).entries()) {
             errors.push(...validateLink(link, `Work "${work.id}" link ${index + 1}`));
 
-            if (link.type === "GitHub" && work.availability.repository !== "public") {
+            const availabilityKey = linkAvailabilityKey[link.type];
+            if (
+                availabilityKey &&
+                work.availability[availabilityKey] !== "public"
+            ) {
                 errors.push(
-                    `Work "${work.id}" has a GitHub link but its repository is not public`,
+                    `Work "${work.id}" has a ${link.type} link but its ${availabilityKey} is not public`,
                 );
             }
         }
 
         for (const [index, publication] of (work.publications ?? []).entries()) {
-            if (!/^\d{4}(?:-\d{2})?$/.test(publication.publishedAt)) {
+            if (!/^\d{4}(?:-(?:0[1-9]|1[0-2]))?$/.test(publication.publishedAt)) {
                 errors.push(
                     `Work "${work.id}" publication ${index + 1} must use YYYY or YYYY-MM`,
                 );

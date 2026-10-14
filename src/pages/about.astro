@@ -2,14 +2,16 @@
 import Head from "@components/util/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/util/Footer.astro";
-import { getFeaturedWorks, workStatusLabels } from "@data/portfolio";
-import { getTechnology } from "@data/technologies";
+import {
+	getFeaturedWorks,
+	getUsedTechnologies,
+	workStatusLabels,
+	works,
+} from "@data/portfolio";
 import "@styles/default.css";
 
 const featuredWorks = getFeaturedWorks();
-const featuredTechnologyIds = [
-	...new Set(featuredWorks.flatMap((work) => work.technologies)),
-];
+const usedTechnologies = getUsedTechnologies(works);
 ---
 
 <style>
@@ -121,8 +123,8 @@ const featuredTechnologyIds = [
 			<section class="section">
 				<h2>使用技術</h2>
 				<ul class="skill-list">
-					{featuredTechnologyIds.map((technologyId) => (
-						<li>{getTechnology(technologyId).name}</li>
+					{usedTechnologies.map((technology) => (
+						<li>{technology.name}</li>
 					))}
 				</ul>
 			</section>

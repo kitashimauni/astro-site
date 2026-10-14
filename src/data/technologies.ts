@@ -1,3 +1,9 @@
+export interface TechnologyEntry {
+    readonly id: string;
+    readonly name: string;
+    readonly category: string;
+}
+
 export const technologies = [
     {
         id: "astro",
@@ -19,7 +25,7 @@ export const technologies = [
         name: "Markdown",
         category: "Content",
     },
-] as const;
+] as const satisfies readonly TechnologyEntry[];
 
 export type Technology = (typeof technologies)[number];
 export type TechnologyId = Technology["id"];
@@ -40,3 +46,30 @@ export const getTechnology = (id: TechnologyId): Technology => {
 
     return technology;
 };
+
+export const validateTechnologies = (
+    items: readonly TechnologyEntry[],
+): void => {
+    const errors: string[] = [];
+    const ids = new Set<string>();
+
+    for (const technology of items) {
+        if (ids.has(technology.id)) {
+            errors.push(`Duplicate technology id: ${technology.id}`);
+        }
+        ids.add(technology.id);
+
+        if (!technology.name.trim()) {
+            errors.push(`Technology "${technology.id}" must have a name`);
+        }
+        if (!technology.category.trim()) {
+            errors.push(`Technology "${technology.id}" must have a category`);
+        }
+    }
+
+    if (errors.length > 0) {
+        throw new Error(`Technology data validation failed:\n${errors.join("\n")}`);
+    }
+};
+
+validateTechnologies(technologies);
