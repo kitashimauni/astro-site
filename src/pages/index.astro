@@ -9,6 +9,9 @@ import githubLogo from "public/img/github-mark.png";
 import xLogo from "public/img/logo-black.png";
 import iconImage from "public/img/icon.png";
 import { Image } from "astro:assets";
+import { getFeaturedWorks, workStatusLabels } from "@data/portfolio";
+
+const featuredWorks = getFeaturedWorks();
 ---
 
 <style>
@@ -63,6 +66,47 @@ import { Image } from "astro:assets";
 		max-width: 1120px;
 		margin: 32px auto 80px;
 		padding: 0 24px;
+	}
+	.portfolio-digest {
+		max-width: 1120px;
+		margin: 0 auto 64px;
+		padding: 0 24px;
+	}
+	.portfolio-digest h2 {
+		margin: 0 0 16px;
+		color: #0f172a;
+	}
+	.portfolio-digest-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 16px;
+		padding: 0;
+		list-style: none;
+	}
+	.portfolio-digest-card {
+		padding: 18px;
+		border: 1px solid #d1d5db;
+		border-radius: 12px;
+		background: rgba(255, 255, 255, 0.82);
+	}
+	.portfolio-digest-card a {
+		color: #166534;
+		text-decoration: none;
+	}
+	.portfolio-digest-card h3 {
+		margin: 0;
+		font-size: 1.05rem;
+	}
+	.portfolio-digest-card p {
+		margin: 8px 0 0;
+		color: #334155;
+		line-height: 1.7;
+	}
+	.portfolio-digest-status {
+		display: block;
+		margin-top: 12px;
+		color: #4b5563;
+		font-size: 0.9rem;
 	}
 	.logo-container {
 		display: flex;
@@ -140,6 +184,24 @@ import { Image } from "astro:assets";
 			<Card href="/about/" title="About" body="経歴など" />
 			<Card href="/others/" title="Others" body="その他リンク等" />
 		</div>
+		<section class="portfolio-digest" aria-labelledby="portfolio-digest-title">
+			<h2 id="portfolio-digest-title">代表的な制作物</h2>
+			<ul class="portfolio-digest-list">
+				{
+					featuredWorks.map((work) => (
+						<li class="portfolio-digest-card">
+							<a href={`/portfolio/#work-${work.id}`}>
+								<h3>{work.title}</h3>
+							</a>
+							<p>{work.summary}</p>
+							<span class="portfolio-digest-status">
+								{workStatusLabels[work.status]}
+							</span>
+						</li>
+					))
+				}
+			</ul>
+		</section>
 		<div class="logo-container">
 			<a
 				href="/links/github/"

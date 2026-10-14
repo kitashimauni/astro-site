@@ -16,6 +16,9 @@
       "@scripts/*": [
         "src/scripts/*"
       ],
+      "@data/*": [
+        "src/data/*"
+      ],
     },
   }
 }

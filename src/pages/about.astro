@@ -2,9 +2,16 @@
 import Head from "@components/util/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/util/Footer.astro";
+import {
+	getFeaturedWorks,
+	getUsedTechnologies,
+	workStatusLabels,
+	works,
+} from "@data/portfolio";
 import "@styles/default.css";
 
-const skills = ["C", "Python", "Web 開発", "アルゴリズム", "機械学習"];
+const featuredWorks = getFeaturedWorks();
+const usedTechnologies = getUsedTechnologies(works);
 ---
 
 <style>
@@ -48,6 +55,27 @@ const skills = ["C", "Python", "Web 開発", "アルゴリズム", "機械学習
 		color: #14532d;
 		font-weight: 600;
 	}
+	.work-list {
+		display: grid;
+		gap: 10px;
+		padding: 0;
+		list-style: none;
+	}
+	.work-list li {
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 12px 0;
+		border-bottom: 1px solid #e5e7eb;
+	}
+	.work-list a {
+		color: #166534;
+		font-weight: 700;
+	}
+	.work-status {
+		color: #4b5563;
+		font-size: 0.9rem;
+	}
 </style>
 
 <html lang="ja">
@@ -72,6 +100,33 @@ const skills = ["C", "Python", "Web 開発", "アルゴリズム", "機械学習
 				<p>
 					ゲーム製作、競技プログラミング、CTF、WEB制作などなど
 				</p>
+			</section>
+
+			<section class="section">
+				<h2>主な制作物</h2>
+				<ul class="work-list">
+					{
+						featuredWorks.map((work) => (
+							<li>
+								<a href={`/portfolio/#work-${work.id}`}>
+									{work.title}
+								</a>
+								<span class="work-status">
+									{workStatusLabels[work.status]}
+								</span>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+
+			<section class="section">
+				<h2>使用技術</h2>
+				<ul class="skill-list">
+					{usedTechnologies.map((technology) => (
+						<li>{technology.name}</li>
+					))}
+				</ul>
 			</section>
 		</main>
 		<Footer />
