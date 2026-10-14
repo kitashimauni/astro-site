@@ -7,7 +7,7 @@ import {
 } from "@data/technologies";
 import {
     getUsedTechnologies,
-    workStatusLabels,
+    getWorkStatusLabel,
     works,
 } from "@data/portfolio";
 import "@styles/default.css";
@@ -148,7 +148,7 @@ const usedTechnologies = getUsedTechnologies();
                                 <div class="work-head">
                                     <h2>{work.title}</h2>
                                     <span class="status">
-                                        {workStatusLabels[work.status]}
+                                        {getWorkStatusLabel(work)}
                                     </span>
                                 </div>
                                 <div class="work-meta">

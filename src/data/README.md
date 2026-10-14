@@ -9,7 +9,7 @@
 
 1. 新しい技術を使う場合は、先に `technologies.ts` に安定したIDを追加する。
 2. `portfolio.ts` の `works` に1作品を追加する。`id` は重複させず、`technologies` には定義済みのIDだけを指定する。
-3. `availability` でリポジトリ公開状態とデモ公開状態を別々に記録する。非公開リポジトリのURLは `links` に追加しない。
+3. `availability` でリポジトリ、デモ、配布ページの公開状態を別々に記録する。非公開リポジトリのURLは `links` に追加しない。
 4. 論文の掲載年月は `YYYY` または `YYYY-MM` で記録し、公開されている論文ページのURLだけを `publications.links` に追加する。
 5. `npm run build` を実行する。型チェックに加えて、重複した作品/技術ID・未定義の技術ID・無効なリンク・公開状態とリンクの不整合・不正な掲載年月を検出する。
 
