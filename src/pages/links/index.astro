@@ -1,0 +1,176 @@
+---
+import Head from "@components/util/Head.astro";
+import Header from "@components/Header.astro";
+import Footer from "@components/util/Footer.astro";
+import { getLinkPath, linkEntries } from "@data/links";
+import "@styles/default.css";
+
+const links = linkEntries.map((link) => ({
+    ...link,
+    href: getLinkPath(link.slug),
+    domain: new URL(link.destination).host,
+}));
+---
+
+<html lang="ja">
+    <Head title="Links" description="プロフィールやブログなどの外部リンク集です" />
+    <body>
+        <Header />
+        <main class="links-page">
+            <span class="eyebrow">External Profiles</span>
+            <h1>Links</h1>
+            <p class="lead">
+                プロフィールやブログなど、利用している外部サービスへのリンクをまとめています。
+            </p>
+
+            <ul class="link-list">
+                {
+                    links.map((link) => (
+                        <li class="link-card">
+                            <div class="link-card-head">
+                                <h2>{link.label}</h2>
+                                <span class="external-icon" aria-hidden="true">↗</span>
+                            </div>
+                            <p class="link-description">{link.description}</p>
+                            <p class="link-destination">
+                                <span>公開先</span>
+                                <code>{link.domain}</code>
+                            </p>
+                            <a
+                                href={link.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="link-button"
+                                aria-label={`${link.label}へ移動`}
+                            >
+                                外部サイトへ移動
+                                <span aria-hidden="true">↗</span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </main>
+        <Footer />
+    </body>
+</html>
+
+<style>
+    .links-page {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 64px 24px 96px;
+        color: #1f2937;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #dcfce7;
+        color: #166534;
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 16px;
+    }
+
+    h1 {
+        margin: 0 0 16px;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .lead {
+        max-width: 720px;
+        margin: 0 0 36px;
+        line-height: 1.9;
+    }
+
+    .link-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .link-card {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        border: 1px solid #d1d5db;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
+    }
+
+    .link-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .link-card h2 {
+        margin: 0;
+        font-size: 1.35rem;
+    }
+
+    .external-icon {
+        color: #0f766e;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .link-description {
+        min-height: 3.6em;
+        margin: 14px 0 18px;
+        line-height: 1.8;
+    }
+
+    .link-destination {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: baseline;
+        margin: 0 0 22px;
+        color: #4b5563;
+        font-size: 0.9rem;
+    }
+
+    .link-destination code {
+        color: #111827;
+        font-family: inherit;
+        font-weight: 700;
+    }
+
+    .link-button {
+        display: inline-flex;
+        align-items: center;
+        align-self: flex-start;
+        gap: 8px;
+        margin-top: auto;
+        padding: 11px 17px;
+        border-radius: 999px;
+        background: #0f172a;
+        color: #ffffff;
+        font-weight: 700;
+        text-decoration: none;
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+    }
+
+    .link-button:hover,
+    .link-button:focus-visible {
+        background: #1e293b;
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 720px) {
+        .link-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

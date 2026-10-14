@@ -1,5 +1,5 @@
 ---
-const platform: String = "";
+import { getLinkPath, linkEntries } from "@data/links";
 ---
 
 <style>
@@ -19,7 +19,38 @@ const platform: String = "";
         font-size: 15px;
         height: 30px;
     }
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+        padding: 14px 20px 4px;
+    }
+    .footer-links a {
+        color: #334155;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+    .footer-links a:hover,
+    .footer-links a:focus-visible {
+        color: #0f766e;
+        text-decoration: underline;
+    }
 </style>
 <footer>
+    <nav class="footer-links" aria-label="外部リンク">
+        {
+            linkEntries.map((link) => (
+                <a
+                    href={getLinkPath(link.slug)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {link.label}
+                    <span aria-hidden="true">↗</span>
+                </a>
+            ))
+        }
+    </nav>
     <div class="copyRightText">Copyright © 2024 Daiki Kitashima All Rights Reserved.</div>
 </footer>

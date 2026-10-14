@@ -10,6 +10,7 @@ import xLogo from "public/img/logo-black.png";
 import iconImage from "public/img/icon.png";
 import { Image } from "astro:assets";
 import { getFeaturedWorks, getWorkStatusLabel } from "@data/portfolio";
+import { getLinkPath } from "@data/links";
 
 const featuredWorks = getFeaturedWorks();
 ---
@@ -182,7 +183,7 @@ const featuredWorks = getFeaturedWorks();
 				body="制作物・スキルなど"
 			/>
 			<Card href="/about/" title="About" body="経歴など" />
-			<Card href="/others/" title="Others" body="その他リンク等" />
+			<Card href="/links/" title="Links" body="外部リンク等" />
 		</div>
 		<section class="portfolio-digest" aria-labelledby="portfolio-digest-title">
 			<h2 id="portfolio-digest-title">代表的な制作物</h2>
@@ -204,7 +205,7 @@ const featuredWorks = getFeaturedWorks();
 		</section>
 		<div class="logo-container">
 			<a
-				href="/links/github/"
+				href={getLinkPath("github")}
 				target="_blank"
 				rel="noreferrer"
 				class="logo-link"
@@ -212,7 +213,7 @@ const featuredWorks = getFeaturedWorks();
 				<Image src={githubLogo} alt="GitHubのリンク" class="logo" />
 			</a>
 			<a
-				href="/links/x/"
+				href={getLinkPath("x")}
 				target="_blank"
 				rel="noreferrer"
 				class="logo-link"

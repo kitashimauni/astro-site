@@ -2,6 +2,7 @@
 import Head from "@components/util/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/util/Footer.astro";
+import { getLinkPath, type LinkSlug } from "@data/links";
 import { works } from "@data/portfolio";
 import "@styles/default.css";
 
@@ -9,7 +10,7 @@ const blogGuides = [
     {
         id: "technical-blog",
         title: "Tech Blog",
-        websiteHref: "/links/tech-blog/",
+        linkSlug: "tech-blog" as LinkSlug,
         description:
             "ソフトウェア開発・機械学習・研究など、技術に関する記事を掲載しています。",
         focus: "技術記事・学習記録",
@@ -17,7 +18,7 @@ const blogGuides = [
     {
         id: "polaris-observatory",
         title: "ポラリス観測所",
-        websiteHref: null,
+        linkSlug: "daily-blog" as LinkSlug,
         description:
             "日々の出来事やアニメ・ゲームなど、日常や趣味について書いています。",
         focus: "日常・趣味の記録",
@@ -35,7 +36,7 @@ const blogGuides = [
         ...guide,
         website,
         github,
-        websiteHref: guide.websiteHref ?? website.url,
+        websiteHref: getLinkPath(guide.linkSlug),
         domain: new URL(website.url).host,
     };
 });
