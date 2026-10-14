@@ -5,6 +5,8 @@
 - `technologies.ts`: 技術ID、表示名、カテゴリ
 - `portfolio.ts`: 作品、研究テーマ、公開状態、リンク、論文、技術IDの紐づけ
 
+PortfolioのTechnical Stackは、作品で実際に使われている技術だけをカテゴリ別に表示する。技術を選ぶと、同じ技術IDを持つ作品へ絞り込める。
+
 ## 作品を追加するとき
 
 1. 新しい技術を使う場合は、先に `technologies.ts` に安定したIDを追加する。
