@@ -6,13 +6,14 @@ import {
     getTechnology,
 } from "@data/technologies";
 import {
-    getUsedTechnologies,
+    getTechnologyWorkCount,
+    getUsedTechnologiesByCategory,
     getWorkStatusLabel,
     works,
 } from "@data/portfolio";
 import "@styles/default.css";
 
-const usedTechnologies = getUsedTechnologies();
+const usedTechnologyGroups = getUsedTechnologiesByCategory();
 ---
 
 <style>
@@ -82,11 +83,32 @@ const usedTechnologies = getUsedTechnologies();
         margin: 16px 0 0;
     }
     .technology-list li {
-        padding: 4px 10px;
+        display: flex;
+    }
+    .technology-list button,
+    .filter-reset,
+    .stack-list button {
+        border: 0;
         border-radius: 999px;
+        padding: 6px 10px;
         background: #ecfdf5;
         color: #166534;
+        font: inherit;
         font-size: 0.85rem;
+        cursor: pointer;
+    }
+    .technology-list button:hover,
+    .technology-list button:focus-visible,
+    .stack-list button:hover,
+    .stack-list button:focus-visible,
+    .filter-reset:hover,
+    .filter-reset:focus-visible {
+        background: #d1fae5;
+    }
+    .technology-list button[aria-pressed="true"],
+    .stack-list button[aria-pressed="true"] {
+        box-shadow: 0 0 0 2px #166534;
+        background: #bbf7d0;
     }
     .link-list {
         margin: 14px 0 0;
@@ -96,29 +118,59 @@ const usedTechnologies = getUsedTechnologies();
         font-weight: 600;
     }
     .stack {
-        margin-top: 48px;
+        margin: 32px 0 48px;
+        padding: 24px;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        background: #f8fafc;
+    }
+    .stack-description {
+        margin-bottom: 16px;
+        color: #4b5563;
+    }
+    .stack-groups {
+        display: grid;
+        gap: 20px;
+    }
+    .stack-group h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
     }
     .stack-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         padding: 0;
         list-style: none;
     }
-    .stack-list li {
-        padding: 14px 16px;
-        border: 1px solid #d1d5db;
-        border-radius: 10px;
-        background: #f8fafc;
+    .stack-list button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #bbf7d0;
+        background: #fff;
     }
-    .stack-list strong,
-    .stack-list span {
-        display: block;
+    .stack-list button span {
+        color: #4b5563;
+        font-size: 0.8rem;
     }
-    .stack-list span {
-        margin-top: 4px;
+    .filter-status {
+        min-height: 1.5em;
+        margin-top: 20px;
         color: #4b5563;
         font-size: 0.85rem;
+    }
+    .filter-reset {
+        border-radius: 6px;
+        background: #e5e7eb;
+        color: #1f2937;
+    }
+    .work-list [hidden] {
+        display: none;
+    }
+    button:focus-visible {
+        outline: 3px solid #86efac;
+        outline-offset: 2px;
     }
     p {
         margin: 0;
@@ -139,12 +191,61 @@ const usedTechnologies = getUsedTechnologies();
                 研究・制作物をプロジェクト単位でまとめています。
             </p>
 
-            <section>
-                <h2 class="section-title">制作物一覧</h2>
-                <ul class="work-list">
+            <section class="stack" aria-labelledby="stack-title">
+                <h2 id="stack-title" class="section-title">Technical Stack</h2>
+                <p class="stack-description">
+                    技術を選ぶと、その技術を使った制作物に絞り込めます。
+                </p>
+                <button
+                    type="button"
+                    class="filter-reset"
+                    data-technology-filter="all"
+                    aria-pressed="true"
+                >
+                    すべて表示
+                </button>
+                <div class="stack-groups">
+                    {
+                        usedTechnologyGroups.map((group) => (
+                            <section class="stack-group">
+                                <h3>{group.category}</h3>
+                                <ul class="stack-list">
+                                    {group.technologies.map((technology) => (
+                                        <li>
+                                            <button
+                                                type="button"
+                                                data-technology-filter={technology.id}
+                                                data-technology-name={technology.name}
+                                                aria-pressed="false"
+                                            >
+                                                {technology.name}
+                                                <span>
+                                                    {getTechnologyWorkCount(technology.id)}作品
+                                                </span>
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </section>
+                        ))
+                    }
+                </div>
+                <p class="filter-status" data-filter-status aria-live="polite">
+                    全{works.length}作品を表示中
+                </p>
+            </section>
+
+            <section aria-labelledby="works-title">
+                <h2 id="works-title" class="section-title">制作物一覧</h2>
+                <ul class="work-list" id="portfolio-works">
                     {
                         works.map((work) => (
-                            <li class="work-item" id={`work-${work.id}`}>
+                            <li
+                                class="work-item"
+                                id={`work-${work.id}`}
+                                data-work-item
+                                data-technologies={work.technologies.join(" ")}
+                            >
                                 <div class="work-head">
                                     <h2>{work.title}</h2>
                                     <span class="status">
@@ -158,7 +259,16 @@ const usedTechnologies = getUsedTechnologies();
                                 <p>{work.summary}</p>
                                 <ul class="technology-list" aria-label="使用技術">
                                     {work.technologies.map((technologyId) => (
-                                        <li>{getTechnology(technologyId).name}</li>
+                                        <li>
+                                            <button
+                                                type="button"
+                                                data-technology-filter={technologyId}
+                                                data-technology-name={getTechnology(technologyId).name}
+                                                aria-pressed="false"
+                                            >
+                                                {getTechnology(technologyId).name}
+                                            </button>
+                                        </li>
                                     ))}
                                 </ul>
                                 {work.links && work.links.length > 0 && (
@@ -181,19 +291,56 @@ const usedTechnologies = getUsedTechnologies();
                     }
                 </ul>
             </section>
-
-            <section class="stack">
-                <h2 class="section-title">Technical Stack</h2>
-                <ul class="stack-list">
-                    {usedTechnologies.map((technology) => (
-                        <li>
-                            <strong>{technology.name}</strong>
-                            <span>{technology.category}</span>
-                        </li>
-                    ))}
-                </ul>
-            </section>
         </main>
         <Footer />
     </body>
 </html>
+
+<script>
+    const workItems = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-work-item]"),
+    );
+    const filterButtons = Array.from(
+        document.querySelectorAll<HTMLButtonElement>(
+            "[data-technology-filter]",
+        ),
+    );
+    const filterStatus = document.querySelector<HTMLElement>(
+        "[data-filter-status]",
+    );
+
+    const applyTechnologyFilter = (technologyId: string): void => {
+        const isAll = technologyId === "all";
+        let visibleCount = 0;
+        let technologyName = "";
+
+        for (const button of filterButtons) {
+            const isActive = button.dataset.technologyFilter === technologyId;
+            button.setAttribute("aria-pressed", String(isActive));
+            if (isActive && button.dataset.technologyName) {
+                technologyName = button.dataset.technologyName;
+            }
+        }
+
+        for (const item of workItems) {
+            const technologies = item.dataset.technologies?.split(" ") ?? [];
+            const isVisible = isAll || technologies.includes(technologyId);
+            item.hidden = !isVisible;
+            if (isVisible) {
+                visibleCount += 1;
+            }
+        }
+
+        if (filterStatus) {
+            filterStatus.textContent = isAll
+                ? `全${visibleCount}作品を表示中`
+                : `${technologyName}を使用する${visibleCount}作品を表示中`;
+        }
+    };
+
+    for (const button of filterButtons) {
+        button.addEventListener("click", () => {
+            applyTechnologyFilter(button.dataset.technologyFilter ?? "all");
+        });
+    }
+</script>

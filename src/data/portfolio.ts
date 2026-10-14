@@ -1,6 +1,7 @@
 import {
     isTechnologyId,
     technologies,
+    type Technology,
     type TechnologyId,
 } from "@data/technologies";
 
@@ -539,3 +540,31 @@ export const getUsedTechnologies = (items: readonly Work[] = works) => {
 
     return technologies.filter((technology) => ids.has(technology.id));
 };
+
+export interface TechnologyGroup {
+    category: string;
+    technologies: Technology[];
+}
+
+export const getUsedTechnologiesByCategory = (
+    items: readonly Work[] = works,
+): TechnologyGroup[] => {
+    const groups = new Map<string, Technology[]>();
+
+    for (const technology of getUsedTechnologies(items)) {
+        const group = groups.get(technology.category) ?? [];
+        group.push(technology);
+        groups.set(technology.category, group);
+    }
+
+    return Array.from(groups, ([category, groupedTechnologies]) => ({
+        category,
+        technologies: groupedTechnologies,
+    }));
+};
+
+export const getTechnologyWorkCount = (
+    technologyId: TechnologyId,
+    items: readonly Work[] = works,
+): number =>
+    items.filter((work) => work.technologies.includes(technologyId)).length;
