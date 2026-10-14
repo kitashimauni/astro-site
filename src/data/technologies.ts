@@ -106,6 +106,11 @@ export const technologies = [
         category: "Tooling",
     },
     {
+        id: "opencvjs",
+        name: "OpenCV.js",
+        category: "Image Processing",
+    },
+    {
         id: "java",
         name: "Java",
         category: "Language",

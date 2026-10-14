@@ -28,6 +28,7 @@ export const workLinkTypes = [
     "Demo",
     "Website",
     "Paper",
+    "Distribution",
 ] as const;
 
 export type WorkLinkType = (typeof workLinkTypes)[number];
@@ -48,6 +49,7 @@ export interface Publication {
 export interface WorkAvailability {
     repository: "public" | "private" | "none";
     demo: "public" | "private" | "none";
+    distribution?: "public" | "private" | "none";
 }
 
 export interface Work {
@@ -71,6 +73,28 @@ export interface Work {
     featured?: boolean;
 }
 
+export const getWorkStatusLabel = (
+    work: Pick<Work, "status" | "availability">,
+): string => {
+    if (work.status !== "published") {
+        return workStatusLabels[work.status];
+    }
+
+    if (work.availability.demo === "public") {
+        return "公開中";
+    }
+
+    if (work.availability.distribution === "public") {
+        return "公開配布";
+    }
+
+    if (work.availability.repository === "public") {
+        return "公開リポジトリ";
+    }
+
+    return workStatusLabels[work.status];
+};
+
 export const works: Work[] = [
     {
         id: "kitashima-dev",
@@ -87,10 +111,15 @@ export const works: Work[] = [
                 type: "GitHub",
                 url: "https://github.com/kitashimauni/astro-site",
             },
+            {
+                type: "Website",
+                url: "https://kitashima.dev/",
+            },
         ],
         availability: {
             repository: "public",
             demo: "public",
+            distribution: "none",
         },
         featured: true,
     },
@@ -115,6 +144,7 @@ export const works: Work[] = [
         availability: {
             repository: "public",
             demo: "public",
+            distribution: "none",
         },
         featured: true,
     },
@@ -245,14 +275,15 @@ export const works: Work[] = [
                 url: "https://github.com/kitashimauni/d_anime_discord_presence",
             },
             {
-                type: "Demo",
+                type: "Distribution",
                 label: "Chrome Web Store",
                 url: "https://chromewebstore.google.com/detail/danimediscordpresence/ifenbhbjocjihjlmbbmdegolkpjmecag",
             },
         ],
         availability: {
             repository: "public",
-            demo: "public",
+            demo: "none",
+            distribution: "public",
         },
     },
     {
@@ -261,7 +292,7 @@ export const works: Work[] = [
         summary: "リアルタイムアニメ風フィルターのWeb UI。",
         category: "Software",
         status: "published",
-        technologies: ["react", "typescript", "vite"],
+        technologies: ["react", "typescript", "vite", "opencvjs"],
         topics: ["画像処理", "Web UI"],
         background: "リアルタイムに映像へアニメ風の表現を適用するWeb UIとして制作。",
         description:
@@ -291,7 +322,7 @@ export const works: Work[] = [
         description:
             "タスクの追加・編集・削除・詳細表示と、時間割の登録・変更・削除に対応しています。",
         contribution: "企画・設計・実装を担当。",
-        results: "タスク管理と時間割管理のAndroidアプリを公開。",
+        results: "タスク管理と時間割管理のAndroidアプリのソースコードを公開。",
         links: [
             {
                 type: "GitHub",
@@ -434,6 +465,7 @@ const linkAvailabilityKey: Partial<
     GitHub: "repository",
     Demo: "demo",
     Website: "demo",
+    Distribution: "distribution",
 };
 
 /**

@@ -9,7 +9,7 @@ import githubLogo from "public/img/github-mark.png";
 import xLogo from "public/img/logo-black.png";
 import iconImage from "public/img/icon.png";
 import { Image } from "astro:assets";
-import { getFeaturedWorks, workStatusLabels } from "@data/portfolio";
+import { getFeaturedWorks, getWorkStatusLabel } from "@data/portfolio";
 
 const featuredWorks = getFeaturedWorks();
 ---
@@ -195,7 +195,7 @@ const featuredWorks = getFeaturedWorks();
 							</a>
 							<p>{work.summary}</p>
 							<span class="portfolio-digest-status">
-								{workStatusLabels[work.status]}
+								{getWorkStatusLabel(work)}
 							</span>
 						</li>
 					))

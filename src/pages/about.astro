@@ -5,7 +5,7 @@ import Footer from "@components/util/Footer.astro";
 import {
 	getFeaturedWorks,
 	getUsedTechnologies,
-	workStatusLabels,
+	getWorkStatusLabel,
 	works,
 } from "@data/portfolio";
 import "@styles/default.css";
@@ -112,7 +112,7 @@ const usedTechnologies = getUsedTechnologies(works);
 									{work.title}
 								</a>
 								<span class="work-status">
-									{workStatusLabels[work.status]}
+									{getWorkStatusLabel(work)}
 								</span>
 							</li>
 						))
