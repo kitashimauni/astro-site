@@ -1,15 +1,15 @@
 ---
-import { socialLinks } from "../../data/socialLinks";
+import { linkEntries } from "@data/links";
 
 export function getStaticPaths() {
-	return Object.entries(socialLinks).map(([service, destination]) => ({
-		params: { service },
-		props: { destination },
+	return linkEntries.map((link) => ({
+		params: { service: link.slug },
+		props: { destination: link.destination },
 	}));
 }
 
 interface Props {
-	destination: (typeof socialLinks)[keyof typeof socialLinks];
+	destination: (typeof linkEntries)[number]["destination"];
 }
 
 return Astro.redirect(Astro.props.destination, 307);
