@@ -9,6 +9,7 @@ const blogGuides = [
     {
         id: "technical-blog",
         title: "Tech Blog",
+        websiteHref: "/links/tech-blog/",
         description:
             "ソフトウェア開発・機械学習・研究など、技術に関する記事を掲載しています。",
         focus: "技術記事・学習記録",
@@ -16,6 +17,7 @@ const blogGuides = [
     {
         id: "polaris-observatory",
         title: "ポラリス観測所",
+        websiteHref: null,
         description:
             "日々の出来事やアニメ・ゲームなど、日常や趣味について書いています。",
         focus: "日常・趣味の記録",
@@ -33,6 +35,7 @@ const blogGuides = [
         ...guide,
         website,
         github,
+        websiteHref: guide.websiteHref ?? website.url,
         domain: new URL(website.url).host,
     };
 });
@@ -65,10 +68,11 @@ const blogGuides = [
                             </p>
                             <div class="blog-actions">
                                 <a
-                                    href={guide.website.url}
+                                    href={guide.websiteHref}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     class="blog-btn"
+                                    aria-label={`${guide.title}を開く`}
                                 >
                                     外部サイトへ移動
                                     <span aria-hidden="true">↗</span>
