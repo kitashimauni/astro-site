@@ -42,6 +42,7 @@ export interface WorkLink {
 
 export interface Publication {
     title: string;
+    authors: string[];
     publishedAt: string;
     venue?: string;
     links?: WorkLink[];
@@ -123,6 +124,56 @@ export const works: Work[] = [
             distribution: "none",
         },
         featured: true,
+    },
+    {
+        id: "strategic-tool-enhanced-negotiation",
+        title:
+            "Strategic Tool Enhanced AI Agent for Multi-Issue Negotiation (Student Abstract)",
+        summary:
+            "LLMをメタ戦略家として用い、明示的な交渉戦略ツールを選択する多論点交渉エージェントの研究。",
+        category: "Research",
+        period: "2026-03",
+        status: "published",
+        technologies: ["llm", "automated-negotiation"],
+        topics: ["自動交渉", "大規模言語モデル", "マルチエージェントシステム"],
+        background:
+            "自律エージェント間の相互作用である自動交渉におけるLLMの活用は、まだ十分に進んでいません。",
+        description:
+            "LLMをメタ戦略家として位置づけ、その能力に応じて外部の明示的な交渉戦略ツールを選択・実行するエージェントを提案しています。時間依存戦略とTit-for-Tat戦略などを利用します。",
+        contribution: "公開論文の著者として、研究成果を共著しました。",
+        results:
+            "ベースライン（最新のLLM交渉者）と比較して、平均効用が約16%高い結果を報告しています。",
+        publications: [
+            {
+                title:
+                    "Strategic Tool Enhanced AI Agent for Multi-Issue Negotiation (Student Abstract)",
+                authors: [
+                    "Daiki Kitashima",
+                    "Ryota Higa",
+                    "Katsuhide Fujita",
+                ],
+                publishedAt: "2026-03-14",
+                venue:
+                    "Proceedings of the AAAI Conference on Artificial Intelligence, 40(48), 41246–41248",
+                links: [
+                    {
+                        type: "Paper",
+                        label: "公式論文ページ",
+                        url: "https://ojs.aaai.org/index.php/AAAI/article/view/42230",
+                    },
+                    {
+                        type: "Paper",
+                        label: "DOI",
+                        url: "https://doi.org/10.1609/aaai.v40i48.42230",
+                    },
+                ],
+            },
+        ],
+        availability: {
+            repository: "none",
+            demo: "none",
+            distribution: "none",
+        },
     },
     {
         id: "technical-blog",
@@ -469,6 +520,9 @@ const linkAvailabilityKey: Partial<
     Distribution: "distribution",
 };
 
+const publicationDatePattern =
+    /^\d{4}-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?$/;
+
 /**
  * Validates portfolio data during Astro's build so references fail early.
  * The TechnologyId type catches most mistakes at compile time; this runtime
@@ -508,9 +562,24 @@ export const validateWorks = (items: readonly Work[]): void => {
         }
 
         for (const [index, publication] of (work.publications ?? []).entries()) {
-            if (!/^\d{4}(?:-(?:0[1-9]|1[0-2]))?$/.test(publication.publishedAt)) {
+            if (!publication.title.trim()) {
                 errors.push(
-                    `Work "${work.id}" publication ${index + 1} must use YYYY or YYYY-MM`,
+                    `Work "${work.id}" publication ${index + 1} must have a title`,
+                );
+            }
+
+            if (
+                publication.authors.length === 0 ||
+                publication.authors.some((author) => !author.trim())
+            ) {
+                errors.push(
+                    `Work "${work.id}" publication ${index + 1} must have non-empty authors`,
+                );
+            }
+
+            if (!publicationDatePattern.test(publication.publishedAt)) {
+                errors.push(
+                    `Work "${work.id}" publication ${index + 1} must use YYYY-MM or YYYY-MM-DD`,
                 );
             }
 
