@@ -132,9 +132,8 @@ export const works: Work[] = [
         summary:
             "LLMをメタ戦略家として用い、明示的な交渉戦略ツールを選択する多論点交渉エージェントの研究。",
         category: "Research",
-        period: "2026-03",
         status: "published",
-        technologies: ["llm", "automated-negotiation"],
+        technologies: [],
         topics: ["自動交渉", "大規模言語モデル", "マルチエージェントシステム"],
         background:
             "自律エージェント間の相互作用である自動交渉におけるLLMの活用は、まだ十分に進んでいません。",
@@ -523,6 +522,38 @@ const linkAvailabilityKey: Partial<
 const publicationDatePattern =
     /^\d{4}-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?$/;
 
+const isValidPublicationDate = (value: string): boolean => {
+    if (!publicationDatePattern.test(value)) {
+        return false;
+    }
+
+    const [yearString, monthString, dayString] = value.split("-");
+    if (!dayString) {
+        return true;
+    }
+
+    const year = Number(yearString);
+    const month = Number(monthString);
+    const day = Number(dayString);
+    const isLeapYear = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+    const daysInMonth = [
+        31,
+        isLeapYear ? 29 : 28,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
+    ];
+
+    return day <= daysInMonth[month - 1];
+};
+
 /**
  * Validates portfolio data during Astro's build so references fail early.
  * The TechnologyId type catches most mistakes at compile time; this runtime
@@ -577,7 +608,7 @@ export const validateWorks = (items: readonly Work[]): void => {
                 );
             }
 
-            if (!publicationDatePattern.test(publication.publishedAt)) {
+            if (!isValidPublicationDate(publication.publishedAt)) {
                 errors.push(
                     `Work "${work.id}" publication ${index + 1} must use YYYY-MM or YYYY-MM-DD`,
                 );

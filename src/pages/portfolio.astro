@@ -312,10 +312,11 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
                                     {work.period && <span>{work.period}</span>}
                                 </div>
                                 <p>{work.summary}</p>
-                                {(work.background ||
-                                    work.description ||
-                                    work.contribution ||
-                                    work.results) && (
+                                {work.category === "Research" &&
+                                    (work.background ||
+                                        work.description ||
+                                        work.contribution ||
+                                        work.results) && (
                                     <dl class="work-details">
                                         {work.background && (
                                             <div class="work-detail">

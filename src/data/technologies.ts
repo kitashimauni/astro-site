@@ -91,16 +91,6 @@ export const technologies = [
         category: "Language",
     },
     {
-        id: "llm",
-        name: "Large Language Models",
-        category: "AI / Research",
-    },
-    {
-        id: "automated-negotiation",
-        name: "Automated Negotiation",
-        category: "AI / Research",
-    },
-    {
         id: "rust",
         name: "Rust",
         category: "Language",
