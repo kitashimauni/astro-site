@@ -117,6 +117,61 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
         color: #166534;
         font-weight: 600;
     }
+    .work-details {
+        display: grid;
+        gap: 12px;
+        margin: 20px 0 0;
+        padding: 16px 0 0;
+        border-top: 1px solid #e5e7eb;
+    }
+    .work-detail {
+        margin: 0;
+    }
+    .work-detail dt {
+        margin-bottom: 4px;
+        color: #4b5563;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    .work-detail dd {
+        margin: 0;
+        line-height: 1.7;
+    }
+    .publication {
+        margin-top: 20px;
+        padding: 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        background: #f8fafc;
+    }
+    .publication h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+    }
+    .publication-title {
+        margin: 0;
+        font-weight: 700;
+        line-height: 1.6;
+    }
+    .publication-meta {
+        margin: 8px 0 0;
+        color: #4b5563;
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+    .publication-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        padding: 0;
+        margin: 12px 0 0;
+        list-style: none;
+    }
+    .publication-links a {
+        color: #166534;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
     .stack {
         margin: 32px 0 48px;
         padding: 24px;
@@ -257,6 +312,81 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
                                     {work.period && <span>{work.period}</span>}
                                 </div>
                                 <p>{work.summary}</p>
+                                {work.category === "Research" &&
+                                    (work.background ||
+                                        work.description ||
+                                        work.contribution ||
+                                        work.results) && (
+                                    <dl class="work-details">
+                                        {work.background && (
+                                            <div class="work-detail">
+                                                <dt>背景</dt>
+                                                <dd>{work.background}</dd>
+                                            </div>
+                                        )}
+                                        {work.description && (
+                                            <div class="work-detail">
+                                                <dt>概要・手法</dt>
+                                                <dd>{work.description}</dd>
+                                            </div>
+                                        )}
+                                        {work.contribution && (
+                                            <div class="work-detail">
+                                                <dt>担当</dt>
+                                                <dd>{work.contribution}</dd>
+                                            </div>
+                                        )}
+                                        {work.results && (
+                                            <div class="work-detail">
+                                                <dt>成果</dt>
+                                                <dd>{work.results}</dd>
+                                            </div>
+                                        )}
+                                    </dl>
+                                )}
+                                {work.publications?.map((publication, index) => (
+                                    <section
+                                        class="publication"
+                                        aria-labelledby={`publication-${work.id}-${index}`}
+                                    >
+                                        <h3 id={`publication-${work.id}-${index}`}>
+                                            公開論文
+                                        </h3>
+                                        <p class="publication-title">
+                                            {publication.title}
+                                        </p>
+                                        <p class="publication-meta">
+                                            著者: {publication.authors.join(" / ")}
+                                            <br />
+                                            公開日: {publication.publishedAt}
+                                            {publication.venue && (
+                                                <>
+                                                    <br />
+                                                    掲載先: {publication.venue}
+                                                </>
+                                            )}
+                                        </p>
+                                        {publication.links &&
+                                            publication.links.length > 0 && (
+                                                <ul
+                                                    class="publication-links"
+                                                    aria-label="論文リンク"
+                                                >
+                                                    {publication.links.map((link) => (
+                                                        <li>
+                                                            <a
+                                                                href={link.url}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                            >
+                                                                {link.label ?? link.type}
+                                                            </a>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                    </section>
+                                ))}
                                 <ul class="technology-list" aria-label="使用技術">
                                     {work.technologies.map((technologyId) => (
                                         <li>
