@@ -2,9 +2,7 @@
 import Head from "@components/util/Head.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/util/Footer.astro";
-import {
-    getTechnology,
-} from "@data/technologies";
+import { getTechnology } from "@data/technologies";
 import {
     getTechnologyWorkCount,
     getUsedTechnologiesByCategory,
@@ -43,10 +41,27 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
         list-style: none;
     }
     .work-item {
+        min-width: 0;
+    }
+    .work-trigger {
+        display: block;
+        width: 100%;
+        padding: 20px;
         border: 1px solid #d1d5db;
         border-radius: 12px;
-        padding: 20px;
         background: #fff;
+        color: #1f2937;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+    }
+    .work-trigger:hover {
+        border-color: #86efac;
+        background: #f0fdf4;
+    }
+    .work-trigger:focus-visible {
+        outline: 3px solid #86efac;
+        outline-offset: 3px;
     }
     .work-head {
         display: flex;
@@ -55,13 +70,16 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
         align-items: baseline;
         margin-bottom: 8px;
     }
-    .work-head h2 {
+    .work-title {
+        min-width: 0;
         font-size: 1.15rem;
-        margin: 0;
+        font-weight: 700;
+        line-height: 1.5;
     }
     .status {
-        font-size: 0.9rem;
+        flex: 0 0 auto;
         color: #4b5563;
+        font-size: 0.9rem;
     }
     .work-meta {
         display: flex;
@@ -70,6 +88,17 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
         margin-bottom: 8px;
         color: #4b5563;
         font-size: 0.9rem;
+    }
+    .work-summary {
+        display: block;
+        line-height: 1.7;
+    }
+    .work-open-hint {
+        display: block;
+        margin-top: 14px;
+        color: #166534;
+        font-size: 0.9rem;
+        font-weight: 700;
     }
     .technology-list,
     .link-list {
@@ -82,10 +111,14 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
     .technology-list {
         margin: 16px 0 0;
     }
-    .technology-list li {
-        display: flex;
+    .technology-chip {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #ecfdf5;
+        color: #166534;
+        font-size: 0.85rem;
     }
-    .technology-list button,
     .filter-reset,
     .stack-list button {
         border: 0;
@@ -97,15 +130,12 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
         font-size: 0.85rem;
         cursor: pointer;
     }
-    .technology-list button:hover,
-    .technology-list button:focus-visible,
     .stack-list button:hover,
     .stack-list button:focus-visible,
     .filter-reset:hover,
     .filter-reset:focus-visible {
         background: #d1fae5;
     }
-    .technology-list button[aria-pressed="true"],
     .stack-list button[aria-pressed="true"] {
         box-shadow: 0 0 0 2px #166534;
         background: #bbf7d0;
@@ -115,61 +145,6 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
     }
     .link-list a {
         color: #166534;
-        font-weight: 600;
-    }
-    .work-details {
-        display: grid;
-        gap: 12px;
-        margin: 20px 0 0;
-        padding: 16px 0 0;
-        border-top: 1px solid #e5e7eb;
-    }
-    .work-detail {
-        margin: 0;
-    }
-    .work-detail dt {
-        margin-bottom: 4px;
-        color: #4b5563;
-        font-size: 0.85rem;
-        font-weight: 700;
-    }
-    .work-detail dd {
-        margin: 0;
-        line-height: 1.7;
-    }
-    .publication {
-        margin-top: 20px;
-        padding: 16px;
-        border: 1px solid #d1d5db;
-        border-radius: 10px;
-        background: #f8fafc;
-    }
-    .publication h3 {
-        margin: 0 0 8px;
-        font-size: 1rem;
-    }
-    .publication-title {
-        margin: 0;
-        font-weight: 700;
-        line-height: 1.6;
-    }
-    .publication-meta {
-        margin: 8px 0 0;
-        color: #4b5563;
-        font-size: 0.9rem;
-        line-height: 1.7;
-    }
-    .publication-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px 16px;
-        padding: 0;
-        margin: 12px 0 0;
-        list-style: none;
-    }
-    .publication-links a {
-        color: #166534;
-        font-size: 0.9rem;
         font-weight: 600;
     }
     .stack {
@@ -223,6 +198,126 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
     .work-list [hidden] {
         display: none;
     }
+    .work-dialog {
+        width: min(720px, calc(100% - 32px));
+        max-width: 720px;
+        max-height: min(80vh, 720px);
+        margin: auto;
+        padding: 0;
+        border: 0;
+        border-radius: 14px;
+        color: #1f2937;
+        background: #fff;
+        box-shadow: 0 24px 80px rgb(15 23 42 / 0.3);
+    }
+    .work-dialog::backdrop {
+        background: rgb(15 23 42 / 0.58);
+    }
+    .dialog-content {
+        position: relative;
+    }
+    .dialog-scroll {
+        max-height: min(80vh, 720px);
+        overflow: auto;
+        padding: 32px 28px 28px;
+    }
+    .dialog-close {
+        position: absolute;
+        z-index: 1;
+        top: 10px;
+        right: 12px;
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        background: #fff;
+        color: #1f2937;
+        font: inherit;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+    }
+    .dialog-close:hover,
+    .dialog-close:focus-visible {
+        background: #f0fdf4;
+    }
+    .dialog-title {
+        margin: 0;
+        padding-right: 48px;
+        font-size: clamp(1.3rem, 3vw, 1.7rem);
+        line-height: 1.5;
+    }
+    .dialog-summary {
+        margin: 16px 0 0;
+        line-height: 1.8;
+    }
+    .work-details {
+        display: grid;
+        gap: 12px;
+        margin: 24px 0 0;
+        padding: 20px 0 0;
+        border-top: 1px solid #e5e7eb;
+    }
+    .work-detail {
+        margin: 0;
+    }
+    .work-detail dt {
+        margin-bottom: 4px;
+        color: #4b5563;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    .work-detail dd {
+        margin: 0;
+        line-height: 1.7;
+    }
+    .dialog-section {
+        margin-top: 24px;
+    }
+    .dialog-section h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+    }
+    .publication {
+        margin-top: 24px;
+        padding: 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        background: #f8fafc;
+    }
+    .publication h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+    }
+    .publication-title {
+        margin: 0;
+        font-weight: 700;
+        line-height: 1.6;
+    }
+    .publication-meta {
+        margin: 8px 0 0;
+        color: #4b5563;
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+    .publication-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        padding: 0;
+        margin: 12px 0 0;
+        list-style: none;
+    }
+    .publication-links a {
+        color: #166534;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    :global(body.portfolio-modal-open) {
+        overflow: hidden;
+    }
     button:focus-visible {
         outline: 3px solid #86efac;
         outline-offset: 2px;
@@ -230,6 +325,16 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
     p {
         margin: 0;
         line-height: 1.7;
+    }
+    @media (max-width: 640px) {
+        .work-head {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .dialog-scroll {
+            padding: 28px 20px 24px;
+        }
     }
 </style>
 
@@ -294,130 +399,190 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
                 <h2 id="works-title" class="section-title">制作物一覧</h2>
                 <ul class="work-list" id="portfolio-works">
                     {
-                        works.map((work) => (
-                            <li
-                                class="work-item"
-                                id={`work-${work.id}`}
-                                data-work-item
-                                data-technologies={work.technologies.join(" ")}
-                            >
-                                <div class="work-head">
-                                    <h2>{work.title}</h2>
-                                    <span class="status">
-                                        {getWorkStatusLabel(work)}
-                                    </span>
-                                </div>
-                                <div class="work-meta">
-                                    <span>{work.category}</span>
-                                    {work.period && <span>{work.period}</span>}
-                                </div>
-                                <p>{work.summary}</p>
-                                {work.category === "Research" &&
-                                    (work.background ||
-                                        work.description ||
-                                        work.contribution ||
-                                        work.results) && (
-                                    <dl class="work-details">
-                                        {work.background && (
-                                            <div class="work-detail">
-                                                <dt>背景</dt>
-                                                <dd>{work.background}</dd>
-                                            </div>
-                                        )}
-                                        {work.description && (
-                                            <div class="work-detail">
-                                                <dt>概要・手法</dt>
-                                                <dd>{work.description}</dd>
-                                            </div>
-                                        )}
-                                        {work.contribution && (
-                                            <div class="work-detail">
-                                                <dt>担当</dt>
-                                                <dd>{work.contribution}</dd>
-                                            </div>
-                                        )}
-                                        {work.results && (
-                                            <div class="work-detail">
-                                                <dt>成果</dt>
-                                                <dd>{work.results}</dd>
-                                            </div>
-                                        )}
-                                    </dl>
-                                )}
-                                {work.publications?.map((publication, index) => (
-                                    <section
-                                        class="publication"
-                                        aria-labelledby={`publication-${work.id}-${index}`}
+                        works.map((work) => {
+                            const dialogId = `work-dialog-${work.id}`;
+                            const titleId = `work-dialog-title-${work.id}`;
+                            const summaryId = `work-dialog-summary-${work.id}`;
+
+                            return (
+                                <li
+                                    class="work-item"
+                                    id={`work-${work.id}`}
+                                    data-work-item
+                                    data-technologies={work.technologies.join(" ")}
+                                >
+                                    <button
+                                        type="button"
+                                        class="work-trigger"
+                                        data-dialog-target={dialogId}
+                                        aria-controls={dialogId}
+                                        aria-haspopup="dialog"
                                     >
-                                        <h3 id={`publication-${work.id}-${index}`}>
-                                            公開論文
-                                        </h3>
-                                        <p class="publication-title">
-                                            {publication.title}
-                                        </p>
-                                        <p class="publication-meta">
-                                            著者: {publication.authors.join(" / ")}
-                                            <br />
-                                            公開日: {publication.publishedAt}
-                                            {publication.venue && (
-                                                <>
-                                                    <br />
-                                                    掲載先: {publication.venue}
-                                                </>
-                                            )}
-                                        </p>
-                                        {publication.links &&
-                                            publication.links.length > 0 && (
-                                                <ul
-                                                    class="publication-links"
-                                                    aria-label="論文リンク"
-                                                >
-                                                    {publication.links.map((link) => (
-                                                        <li>
-                                                            <a
-                                                                href={link.url}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                            >
-                                                                {link.label ?? link.type}
-                                                            </a>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            )}
-                                    </section>
-                                ))}
-                                <ul class="technology-list" aria-label="使用技術">
-                                    {work.technologies.map((technologyId) => (
-                                        <li>
+                                        <span class="work-head">
+                                            <span class="work-title">{work.title}</span>
+                                            <span class="status">
+                                                {getWorkStatusLabel(work)}
+                                            </span>
+                                        </span>
+                                        <span class="work-meta">
+                                            <span>{work.category}</span>
+                                            {work.period && <span>{work.period}</span>}
+                                        </span>
+                                        <span class="work-summary">{work.summary}</span>
+                                        {work.technologies.length > 0 && (
+                                            <span
+                                                class="technology-list"
+                                                aria-label="主な使用技術"
+                                            >
+                                                {work.technologies.map((technologyId) => (
+                                                    <span class="technology-chip">
+                                                        {getTechnology(technologyId).name}
+                                                    </span>
+                                                ))}
+                                            </span>
+                                        )}
+                                        <span class="work-open-hint" aria-hidden="true">
+                                            詳細を見る ↗
+                                        </span>
+                                    </button>
+
+                                    <dialog
+                                        id={dialogId}
+                                        class="work-dialog"
+                                        data-work-dialog
+                                        aria-labelledby={titleId}
+                                        aria-describedby={summaryId}
+                                    >
+                                        <div class="dialog-content">
                                             <button
                                                 type="button"
-                                                data-technology-filter={technologyId}
-                                                data-technology-name={getTechnology(technologyId).name}
-                                                aria-pressed="false"
+                                                class="dialog-close"
+                                                data-dialog-close
+                                                aria-label={`${work.title}の詳細を閉じる`}
                                             >
-                                                {getTechnology(technologyId).name}
+                                                ×
                                             </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                                {work.links && work.links.length > 0 && (
-                                    <ul class="link-list" aria-label="関連リンク">
-                                        {work.links.map((link) => (
-                                            <li>
-                                                <a
-                                                    href={link.url}
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                >
-                                                    {link.label ?? link.type}
-                                                </a>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                )}
-                            </li>
-                        ))
+                                            <div class="dialog-scroll">
+                                                <h2 id={titleId} class="dialog-title">
+                                                    {work.title}
+                                                </h2>
+                                                <div class="work-meta">
+                                                    <span>{work.category}</span>
+                                                    {work.period && <span>{work.period}</span>}
+                                                </div>
+                                                <p id={summaryId} class="dialog-summary">
+                                                    {work.summary}
+                                                </p>
+                                                {(work.background ||
+                                                    work.description ||
+                                                    work.contribution ||
+                                                    work.results) && (
+                                                    <dl class="work-details">
+                                                        {work.background && (
+                                                            <div class="work-detail">
+                                                                <dt>背景</dt>
+                                                                <dd>{work.background}</dd>
+                                                            </div>
+                                                        )}
+                                                        {work.description && (
+                                                            <div class="work-detail">
+                                                                <dt>概要・手法</dt>
+                                                                <dd>{work.description}</dd>
+                                                            </div>
+                                                        )}
+                                                        {work.contribution && (
+                                                            <div class="work-detail">
+                                                                <dt>担当</dt>
+                                                                <dd>{work.contribution}</dd>
+                                                            </div>
+                                                        )}
+                                                        {work.results && (
+                                                            <div class="work-detail">
+                                                                <dt>成果</dt>
+                                                                <dd>{work.results}</dd>
+                                                            </div>
+                                                        )}
+                                                    </dl>
+                                                )}
+                                                {work.publications?.map((publication, index) => (
+                                                    <section
+                                                        class="publication"
+                                                        aria-labelledby={`publication-${work.id}-${index}`}
+                                                    >
+                                                        <h3 id={`publication-${work.id}-${index}`}>
+                                                            公開論文
+                                                        </h3>
+                                                        <p class="publication-title">
+                                                            {publication.title}
+                                                        </p>
+                                                        <p class="publication-meta">
+                                                            著者: {publication.authors.join(" / ")}
+                                                            <br />
+                                                            公開日: {publication.publishedAt}
+                                                            {publication.venue && (
+                                                                <>
+                                                                    <br />
+                                                                    掲載先: {publication.venue}
+                                                                </>
+                                                            )}
+                                                        </p>
+                                                        {publication.links &&
+                                                            publication.links.length > 0 && (
+                                                                <ul
+                                                                    class="publication-links"
+                                                                    aria-label="論文リンク"
+                                                                >
+                                                                    {publication.links.map((link) => (
+                                                                        <li>
+                                                                            <a
+                                                                                href={link.url}
+                                                                                target="_blank"
+                                                                                rel="noopener noreferrer"
+                                                                            >
+                                                                                {link.label ?? link.type}
+                                                                            </a>
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                    </section>
+                                                ))}
+                                                {work.technologies.length > 0 && (
+                                                    <section class="dialog-section">
+                                                        <h3>使用技術</h3>
+                                                        <div class="technology-list">
+                                                            {work.technologies.map((technologyId) => (
+                                                                <span class="technology-chip">
+                                                                    {getTechnology(technologyId).name}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </section>
+                                                )}
+                                                {work.links && work.links.length > 0 && (
+                                                    <section class="dialog-section">
+                                                        <h3>関連リンク</h3>
+                                                        <ul class="link-list">
+                                                            {work.links.map((link) => (
+                                                                <li>
+                                                                    <a
+                                                                        href={link.url}
+                                                                        target="_blank"
+                                                                        rel="noopener noreferrer"
+                                                                    >
+                                                                        {link.label ?? link.type}
+                                                                    </a>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    </section>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </dialog>
+                                </li>
+                            );
+                        })
                     }
                 </ul>
             </section>
@@ -473,4 +638,127 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
             applyTechnologyFilter(button.dataset.technologyFilter ?? "all");
         });
     }
+
+    type ActiveDialog = {
+        dialog: HTMLDialogElement;
+        trigger: HTMLButtonElement;
+        workId: string;
+        historyPushed: boolean;
+    };
+
+    const dialogTriggers = Array.from(
+        document.querySelectorAll<HTMLButtonElement>("[data-dialog-target]"),
+    );
+    let activeDialog: ActiveDialog | null = null;
+
+    const getWorkId = (trigger: HTMLButtonElement): string =>
+        trigger.closest<HTMLElement>("[data-work-item]")?.id.replace(/^work-/, "") ??
+        "";
+
+    const findTrigger = (workId: string): HTMLButtonElement | undefined =>
+        dialogTriggers.find((trigger) => getWorkId(trigger) === workId);
+
+    const openDialog = (
+        trigger: HTMLButtonElement,
+        fromHash = false,
+    ): void => {
+        const dialogId = trigger.dataset.dialogTarget;
+        const dialog = dialogId
+            ? document.getElementById(dialogId) as HTMLDialogElement | null
+            : null;
+        const workId = getWorkId(trigger);
+
+        if (!dialog || !workId || dialog.open) {
+            return;
+        }
+
+        const hash = `#work-${workId}`;
+        const historyPushed = !fromHash && window.location.hash !== hash;
+        if (historyPushed) {
+            window.history.pushState({ portfolioWork: workId }, "", hash);
+        }
+
+        dialog.showModal();
+        document.body.classList.add("portfolio-modal-open");
+        activeDialog = { dialog, trigger, workId, historyPushed };
+        dialog.querySelector<HTMLElement>("[data-dialog-close]")?.focus();
+    };
+
+    const closeDialog = (
+        dialog: HTMLDialogElement,
+        fromPopState = false,
+    ): void => {
+        const current = activeDialog?.dialog === dialog ? activeDialog : null;
+        if (dialog.open) {
+            dialog.close();
+        }
+
+        if (!current || fromPopState) {
+            return;
+        }
+
+        if (current.historyPushed && window.location.hash === `#work-${current.workId}`) {
+            window.history.back();
+        } else if (window.location.hash === `#work-${current.workId}`) {
+            window.history.replaceState(
+                null,
+                "",
+                `${window.location.pathname}${window.location.search}`,
+            );
+        }
+    };
+
+    const syncDialogWithHash = (): void => {
+        const workId = window.location.hash.replace(/^#work-/, "");
+        const trigger = workId ? findTrigger(workId) : undefined;
+
+        if (trigger) {
+            if (activeDialog && activeDialog.workId !== workId) {
+                closeDialog(activeDialog.dialog, true);
+            }
+            if (!activeDialog || activeDialog.workId !== workId) {
+                openDialog(trigger, true);
+            }
+            return;
+        }
+
+        if (activeDialog) {
+            closeDialog(activeDialog.dialog, true);
+        }
+    };
+
+    for (const trigger of dialogTriggers) {
+        const dialogId = trigger.dataset.dialogTarget;
+        const dialog = dialogId
+            ? document.getElementById(dialogId) as HTMLDialogElement | null
+            : null;
+
+        if (!dialog) {
+            continue;
+        }
+
+        trigger.addEventListener("click", () => openDialog(trigger));
+        dialog.querySelector<HTMLButtonElement>("[data-dialog-close]")?.addEventListener(
+            "click",
+            () => closeDialog(dialog),
+        );
+        dialog.addEventListener("click", (event) => {
+            if (event.target === dialog) {
+                closeDialog(dialog);
+            }
+        });
+        dialog.addEventListener("cancel", (event) => {
+            event.preventDefault();
+            closeDialog(dialog);
+        });
+        dialog.addEventListener("close", () => {
+            document.body.classList.remove("portfolio-modal-open");
+            const current = activeDialog?.dialog === dialog ? activeDialog : null;
+            activeDialog = null;
+            current?.trigger.focus();
+        });
+    }
+
+    window.addEventListener("popstate", syncDialogWithHash);
+    syncDialogWithHash();
 </script>
