@@ -24,6 +24,10 @@ export const workStatusLabels: Record<WorkStatus, string> = {
     archived: "過去作品",
 };
 
+export const portfolioWorkIds = {
+    aaaiStudentAbstract: "strategic-tool-enhanced-negotiation",
+} as const;
+
 export const workLinkTypes = [
     "GitHub",
     "Demo",
@@ -126,7 +130,7 @@ export const works: Work[] = [
         featured: true,
     },
     {
-        id: "strategic-tool-enhanced-negotiation",
+        id: portfolioWorkIds.aaaiStudentAbstract,
         title:
             "Strategic Tool Enhanced AI Agent for Multi-Issue Negotiation (Student Abstract)",
         summary:
@@ -631,6 +635,29 @@ export const validateWorks = (items: readonly Work[]): void => {
 };
 
 validateWorks(works);
+
+export const getWorkById = (id: string): Work | undefined =>
+    works.find((work) => work.id === id);
+
+export const getRequiredPublication = (workId: string): Publication => {
+    const work = getWorkById(workId);
+    if (!work) {
+        throw new Error(`Portfolio work not found: ${workId}`);
+    }
+
+    const publication = work.publications?.[0];
+    if (!publication) {
+        throw new Error(`Portfolio work "${workId}" has no publication`);
+    }
+
+    if (!publication.links || publication.links.length === 0) {
+        throw new Error(
+            `Portfolio work "${workId}" publication has no public links`,
+        );
+    }
+
+    return publication;
+};
 
 export const getFeaturedWorks = (): Work[] =>
     works.filter((work) => work.featured);
