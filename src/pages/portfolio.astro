@@ -752,10 +752,14 @@ const usedTechnologyGroups = getUsedTechnologiesByCategory();
             closeDialog(dialog);
         });
         dialog.addEventListener("close", () => {
+            if (activeDialog?.dialog !== dialog) {
+                return;
+            }
+
             document.body.classList.remove("portfolio-modal-open");
-            const current = activeDialog?.dialog === dialog ? activeDialog : null;
+            const current = activeDialog;
             activeDialog = null;
-            current?.trigger.focus();
+            current.trigger.focus();
         });
     }
 
