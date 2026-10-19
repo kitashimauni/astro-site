@@ -1,3 +1,8 @@
+import {
+    getRequiredPublication,
+    portfolioWorkIds,
+} from "@data/portfolio";
+
 export interface AboutLink {
     label: string;
     url: string;
@@ -96,18 +101,19 @@ export const timeline: TimelineEntry[] = [
     },
 ];
 
+const aaaiPublication = getRequiredPublication(
+    portfolioWorkIds.aaaiStudentAbstract,
+);
+
 export const achievements: AboutItem[] = [
     {
-        period: "2026-03",
-        title: "AAAI-26 Student Abstract",
-        description:
-            "Strategic Tool Enhanced AI Agent for Multi-Issue Negotiation (Student Abstract) を共著しました。",
-        links: [
-            {
-                label: "AAAI公式論文ページ",
-                url: "https://ojs.aaai.org/index.php/AAAI/article/view/42230",
-            },
-        ],
+        period: aaaiPublication.publishedAt.slice(0, 7),
+        title: aaaiPublication.title,
+        description: `${aaaiPublication.title} を共著しました。`,
+        links: aaaiPublication.links?.map((link) => ({
+            label: link.label ?? link.type,
+            url: link.url,
+        })),
     },
     {
         period: "2025-09",
