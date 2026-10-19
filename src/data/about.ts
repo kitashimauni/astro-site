@@ -148,4 +148,20 @@ export const activities: AboutItem[] = [
             },
         ],
     },
+    {
+        period: "2024-04",
+        title: "tuat-typstへの貢献",
+        description:
+            "東京農工大学の実験表紙用Typstテンプレートに、PowerShell版インストーラーの追加とREADME整備で貢献しました。",
+        links: [
+            {
+                label: "リポジトリ",
+                url: "https://github.com/kitashimauni/tuat-typst",
+            },
+            {
+                label: "PowerShell対応の変更",
+                url: "https://github.com/kitashimauni/tuat-typst/commit/0deab009cbcd74600a43ac186ff99c8e78eecda0",
+            },
+        ],
+    },
 ];
