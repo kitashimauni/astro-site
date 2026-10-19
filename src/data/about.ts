@@ -74,10 +74,23 @@ export const hobbies = [
 export const timeline: TimelineEntry[] = [
     {
         section: "Education",
-        period: "在籍中",
+        period: "2022.04-2025.03",
+        title: "東京農工大学工学部",
+        organization: "知能情報システム工学科",
+        description: "知能情報システム工学を学び、3年間で早期卒業しました。",
+        links: [
+            {
+                label: "東京農工大学",
+                url: "https://www.tuat.ac.jp/",
+            },
+        ],
+    },
+    {
+        section: "Education",
+        period: "2025.04-2027.03（修了予定）",
         title: "東京農工大学大学院",
         organization: "工学府 知能情報システム工学専攻",
-        description: "知能情報システム工学を専攻しています。",
+        description: "知能情報システム工学を専攻しています。2027年3月修了予定です。",
         links: [
             {
                 label: "東京農工大学",
@@ -87,7 +100,7 @@ export const timeline: TimelineEntry[] = [
     },
     {
         section: "Experience",
-        period: "在籍中",
+        period: "2025.04-在籍中",
         title: "藤田桂英研究室",
         organization: "東京農工大学大学院",
         description:
