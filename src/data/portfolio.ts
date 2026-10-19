@@ -183,6 +183,7 @@ export const works: Work[] = [
         title: "技術ブログ",
         summary: "学習内容や実装メモを公開している技術ブログです。",
         category: "Other",
+        period: "2025–",
         status: "published",
         technologies: ["markdown"],
         topics: ["技術記事", "学習記録"],
@@ -209,6 +210,7 @@ export const works: Work[] = [
         summary:
             "自宅や研究室の蔵書を管理するセルフホスト向けWebアプリケーション。",
         category: "Software",
+        period: "2026–",
         status: "published",
         technologies: [
             "react",
@@ -242,6 +244,7 @@ export const works: Work[] = [
         summary:
             "毎日のルーティーンを記録し、履歴や達成率を確認するアプリ。",
         category: "Software",
+        period: "2026–",
         status: "published",
         technologies: ["nextjs", "react", "typescript", "postgresql"],
         topics: ["習慣管理", "記録", "可視化"],
@@ -266,6 +269,7 @@ export const works: Work[] = [
         title: "Payment Log",
         summary: "支払いを数秒で記録できる個人向け支払いログ。",
         category: "Software",
+        period: "2026–",
         status: "published",
         technologies: ["nextjs", "typescript", "indexeddb", "postgresql"],
         topics: ["支払い管理", "Local First", "PWA"],
@@ -291,6 +295,7 @@ export const works: Work[] = [
         summary:
             "HugoやEleventyに対応するセルフホスト型ヘッドレスCMS。",
         category: "Software",
+        period: "2025–",
         status: "published",
         technologies: ["go", "gin", "docker", "hugo", "eleventy"],
         topics: ["CMS", "静的サイト", "セルフホスト"],
@@ -316,6 +321,7 @@ export const works: Work[] = [
         summary:
             "dアニメストアで再生中の作品名と時間をDiscord Presenceに表示する拡張機能。",
         category: "Software",
+        period: "2024",
         status: "published",
         technologies: ["javascript", "rust", "chrome-extension"],
         topics: ["Chrome拡張", "Discord", "Native Messaging"],
@@ -346,6 +352,7 @@ export const works: Work[] = [
         title: "リアルタイムアニメ風フィルター",
         summary: "リアルタイムアニメ風フィルターのWeb UI。",
         category: "Software",
+        period: "2025",
         status: "published",
         technologies: ["react", "typescript", "vite", "opencvjs"],
         topics: ["画像処理", "Web UI"],
@@ -370,6 +377,7 @@ export const works: Work[] = [
         title: "MyApp",
         summary: "タスクと時間割を管理するAndroidアプリ。",
         category: "Software",
+        period: "2023",
         status: "published",
         technologies: ["java", "android"],
         topics: ["タスク管理", "時間割", "Android"],
@@ -395,6 +403,7 @@ export const works: Work[] = [
         summary:
             "AndroidからBluetooth経由でWindowsを操作するペアアプリ。",
         category: "Software",
+        period: "2024",
         status: "published",
         technologies: ["java", "android", "csharp", "bluetooth"],
         topics: ["Bluetooth", "Android", "Windows"],
@@ -425,6 +434,7 @@ export const works: Work[] = [
         title: "ポラリス観測所",
         summary: "Eleventy/Nunjucksで構築した日常ブログ。",
         category: "Other",
+        period: "2025–",
         status: "published",
         technologies: ["eleventy", "nunjucks", "javascript"],
         topics: ["日常ブログ", "Web制作"],
@@ -452,6 +462,7 @@ export const works: Work[] = [
         title: "report-tools",
         summary: "レポート執筆用のTypst関数・パッケージ。",
         category: "Other",
+        period: "2024",
         status: "published",
         technologies: ["typst"],
         topics: ["Typst", "レポート執筆支援"],
@@ -477,6 +488,7 @@ export const works: Work[] = [
         summary:
             "Tailscale上のローカルサービスをCaddyで公開するセルフホスト補助ツール。",
         category: "Other",
+        period: "2026",
         status: "published",
         technologies: ["shell", "docker", "caddy"],
         topics: ["セルフホスト", "Tailscale", "TLS", "Cloudflare DNS-01"],
