@@ -93,7 +93,7 @@ export const repositoryTriage: RepositoryTriageEntry[] = [
             },
             {
                 label: "PowerShell対応の貢献",
-                url: "https://github.com/kitashimauni/tuat-typst/commit/0deab009cbcd74600a43ac186ff99c8e78eecda0",
+                url: "https://github.com/kitashimauni/tuat-typst/commit/0deab009cbcd74600a43ac186ff99c8e78eecda5",
             },
         ],
     },
