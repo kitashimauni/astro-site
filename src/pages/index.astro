@@ -7,10 +7,27 @@ import "@styles/default.css";
 import iconImage from "public/img/icon.png";
 import { Image } from "astro:assets";
 import { profile } from "@data/about";
-import { getFeaturedWorks, getWorkStatusLabel } from "@data/portfolio";
+import {
+	getWorkById,
+	getWorkStatusLabel,
+	portfolioWorkIds,
+} from "@data/portfolio";
 import { getLink, getLinkPath } from "@data/links";
 
-const featuredWorks = getFeaturedWorks();
+const featuredWorkIds = [
+	portfolioWorkIds.aaaiStudentAbstract,
+	"book-manager",
+	"homecms",
+] as const;
+const featuredWorks = featuredWorkIds.map((id) => {
+	const work = getWorkById(id);
+
+	if (!work) {
+		throw new Error(`Home featured work not found: ${id}`);
+	}
+
+	return work;
+});
 const blogLinks = (["tech-blog", "daily-blog"] as const).map((slug) => ({
 	...getLink(slug),
 	href: getLinkPath(slug),
@@ -380,6 +397,7 @@ const externalLinks = (["github", "x"] as const).map((slug) => ({
 							))
 						}
 					</ul>
+					<a class="guide-more" href="/blog/">ブログの案内を見る <span aria-hidden="true">→</span></a>
 				</article>
 
 				<article class="guide-card">
