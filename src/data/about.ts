@@ -168,6 +168,58 @@ export const activities: AboutItem[] = [
         ],
     },
     {
+        period: "2025-12",
+        title: "ICPC 2025 Yokohama Regional Contest",
+        description:
+            "チームKATUNIで横浜大会に参加し、63チーム中56位でした。",
+        links: [
+            {
+                label: "大会公式",
+                url: "https://icpc.jp/2025/regional/",
+            },
+            {
+                label: "参加記",
+                url: "https://github.com/kitashimauni/techblog/blob/main/content/posts/20251210-icpc2025/index.md",
+            },
+        ],
+    },
+    {
+        period: "2025-07",
+        title: "ICPC 2025国内予選",
+        description:
+            "MCCからチームKATUNIで参加し、6問正解の66位で横浜大会に選抜されました。",
+        links: [
+            {
+                label: "公式結果",
+                url: "https://icpc.jp/2025/domestic/results/",
+            },
+            {
+                label: "参加記",
+                url: "https://github.com/kitashimauni/techblog/blob/main/content/posts/20251210-icpc2025/index.md",
+            },
+        ],
+    },
+    {
+        period: "2025-03",
+        title: "Extenject講習会",
+        description:
+            "MCCでUnityの依存性注入フレームワークExtenjectの講習会を実施し、資料を公開しました。",
+        links: [
+            {
+                label: "活動記録",
+                url: "https://github.com/kitashimauni/techblog/blob/main/content/posts/20250330-1/index.md",
+            },
+            {
+                label: "講習資料",
+                url: "https://github.com/tuatmcc/ExtenjectLecture",
+            },
+            {
+                label: "MCC公式サイト",
+                url: "https://tuatmcc.com/",
+            },
+        ],
+    },
+    {
         period: "2024-04",
         title: "tuat-typstへの貢献",
         description:
