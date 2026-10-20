@@ -128,18 +128,6 @@ export const achievements: AboutItem[] = [
             url: link.url,
         })),
     },
-    {
-        period: "2025-09",
-        title: "第30回日本バーチャルリアリティ学会大会論文集",
-        description:
-            "チーム制作『〜なんでも食感生成〜 VRレストラン「Yummyverse」』の共著者として掲載されました。",
-        links: [
-            {
-                label: "公式論文PDF",
-                url: "https://conference.vrsj.org/ac2025/program/doc/IVRC-06.pdf",
-            },
-        ],
-    },
 ];
 
 export const activities: AboutItem[] = [
