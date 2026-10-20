@@ -1,54 +1,49 @@
-# Astro Starter Kit: Basics
+# kitashima.dev
+
+東京農工大学大学院での研究活動と、個人開発・技術記事をまとめたポートフォリオサイトです。Astroで構築し、プロフィール、研究・制作物、ブログ、外部リンクを公開しています。
+
+公開サイト: <https://kitashima.dev/>
+
+## ページ構成
+
+- `/`: 自己紹介、代表的な研究・制作物、ブログ・外部リンクへの入口
+- `/about/`: 所属、研究関心、経歴、活動実績
+- `/portfolio/`: 研究・制作物と技術スタック
+- `/blog/`: 技術ブログと日常ブログへの案内
+- `/links/`: GitHub、X、ブログなど外部リンクの一覧
+
+## データ構成
+
+ページごとの情報の重複を避けるため、プロフィールや作品情報は共通データから表示しています。
+
+- `src/data/about.ts`: プロフィール、研究関心、経歴、活動実績
+- `src/data/portfolio.ts`: 研究・制作物、公開状態、リンク、論文、技術ID
+- `src/data/links.ts`: 外部リンクの名前、説明、公開先
+- `src/data/technologies.ts`: 技術ID、表示名、カテゴリ
+- `src/data/repository-triage.ts`: 公開リポジトリの掲載・除外判定
+
+データの追加・検証ルールは [`src/data/README.md`](src/data/README.md) にまとめています。
+
+## 開発
+
+Node.jsとnpmを使用します。
 
 ```sh
-npm create astro@latest -- --template basics
+npm ci
+npm run dev
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+開発サーバーは <http://localhost:4321/> で起動します。
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## ビルドと確認
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm run build
+npm run preview
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`npm run build` はAstroの型チェック、ポートフォリオデータの検証、静的サイトの生成を実行します。公開前にローカルで生成結果を確認する場合は、ビルド後に `npm run preview` を実行してください。
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## ライセンス
 
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+サイトの文章・画像・データの利用については、各ファイルおよびリンク先の記載に従ってください。
