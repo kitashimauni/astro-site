@@ -26,7 +26,7 @@
 
 ## 開発
 
-Node.jsとnpmを使用します。
+Node.js 22.22.0以上（Astro 7.4のサポート要件）とnpmを使用します。リポジトリ直下の `.nvmrc` は、AstroとCloudflare Pagesのビルドに必要な `22.22.0` を指定しています。
 
 ```sh
 npm ci
@@ -43,6 +43,13 @@ npm run preview
 ```
 
 `npm run build` はAstroの型チェック、ポートフォリオデータの検証、静的サイトの生成を実行します。公開前にローカルで生成結果を確認する場合は、ビルド後に `npm run preview` を実行してください。
+
+## Cloudflare Pages
+
+- ビルドコマンド: `npm run build`
+- 出力ディレクトリ: `dist`
+- Node.js: `22.22.0`（`.nvmrc`またはPagesの `NODE_VERSION` で指定）
+- 現在の静的ビルドで追加の環境変数は不要です
 
 ## ライセンス
 

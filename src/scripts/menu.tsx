@@ -1,13 +1,13 @@
 const hamburger = document.querySelector<HTMLButtonElement>(".hamburger");
-const navigation = document.querySelector<HTMLElement>(".nav-links");
+const navLinks = document.querySelector<HTMLElement>(".nav-links");
 
 const closeMenu = () => {
     hamburger?.setAttribute("aria-expanded", "false");
     hamburger?.setAttribute("aria-label", "メニューを開く");
-    navigation?.classList.remove("is-open");
+    navLinks?.classList.remove("is-open");
 };
 
-if (hamburger && navigation) {
+if (hamburger && navLinks) {
     hamburger.addEventListener("click", () => {
         const isExpanded = hamburger.getAttribute("aria-expanded") === "true";
         hamburger.setAttribute("aria-expanded", String(!isExpanded));
@@ -15,7 +15,7 @@ if (hamburger && navigation) {
             "aria-label",
             isExpanded ? "メニューを開く" : "メニューを閉じる",
         );
-        navigation.classList.toggle("is-open", !isExpanded);
+        navLinks.classList.toggle("is-open", !isExpanded);
     });
 
     window.addEventListener("resize", () => {
@@ -29,7 +29,7 @@ if (hamburger && navigation) {
             window.innerWidth < 768 &&
             event.target instanceof Node &&
             !hamburger.contains(event.target) &&
-            !navigation.contains(event.target)
+            !navLinks.contains(event.target)
         ) {
             closeMenu();
         }
